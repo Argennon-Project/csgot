@@ -129,16 +129,18 @@ rel name<template variables>(input) (output) {
 }
 ```
 
-All the inputs and outputs must be of the `csv` type, and therefore there is
-no need for annotating their type. For example:
+All the inputs and outputs are always of the `csv` type, and therefore
+there is no need for annotating their type. The return values are always
+named and the return statement will be without arguments:
 
 ```go
 rel linear<n int, flag bool>(x , y) (z, w) {
-	// body
+    // body
+    return
 }
 ```
 
-Inputs and outputs may be arrays or slices:
+Inputs and outputs can be arrays or slices:
 
 ```go
 rel r(x[], y[5], z) w[] {
@@ -147,7 +149,55 @@ rel r(x[], y[5], z) w[] {
 ```
 
 In practice, relations are usually used to represent circuit components.
-Alternatively, instead of the `rel` keyword, `comp` keyword can be used for 
-declaring a relation.
+Alternatively, instead of the `rel` keyword, `comp` keyword can also be used
+for declaring a relation.
+
+Calling a relation is similar to a function. When a relation is called, it
+always creates its output csv variables as temporary variables. If we want
+to use them we need to define an alias for them:
+
+```go
+    var res &csv
+    res = r(x, y)
+```
 
 ### Hints
+
+Automatically solving a system of constraints can be a difficult task
+sometimes. Hints are a tool that enables a programmer to hint at an
+algorithm that solves the
+constraint system efficiently.
+
+Usually a constraint system which defines a function or relation with fewer
+constraints is also harder to solve. That makes hints a very
+important tool in creating compact representations for functions and relations.
+
+Since hints are essentially algorithms, in CsGo a hint is represented by a
+program function. The declaration of hints is very similar to relations:
+
+```go
+hint h1(x, y) z {
+    // body
+}
+
+hint h2<n int>(x, y) (z, w[]) {
+    // body
+}
+```
+
+There is only one important difference: while the inputs and outputs of a
+hint must be `csv` when the hint is called, the type of them is `big.Int`
+inside the declaration and body of the hint. That's because a `csv` is
+*unpacked* inside a hint function and
+its value can be read or even modified, if the variable is an output. It
+should be noted that the value of input variables can not be modified.
+
+There is a special syntax for calling and using a hint:
+
+```go
+    var x1, x2, x3 csv
+    var y []csv
+    h1(x1, x2) -> x3
+    h2<10>(x1, x2) -> (x3, y)
+```
+
