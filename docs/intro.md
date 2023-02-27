@@ -3,7 +3,7 @@
 The CsGo language augments the normal syntax of the Go programming language to
 enable easy declaration of polynomial constraint systems using Go programs.
 A CsGo program is essentially a Go program that declares a system of
-polynomial constraints when is executed, and the exact definition
+polynomial constraints when is executed. The exact definition
 of the constraint system may be decided at runtime, depending on the program
 inputs.
 
@@ -14,7 +14,7 @@ system of constraints.
 CsGo aims to provide a convenient, yet flexible and low level way for
 declaring polynomial constraint systems. It does **not**
 intend to be a high level language for converting conventional programs to
-constraint systems. For that reason, it intentionally exposes low level
+constraint systems. Therefore, it intentionally exposes low level
 properties of the underlying constraint system to the programmer.
 
 ### Constraint System Variables
@@ -51,8 +51,8 @@ constraint system.
 
 #### Operators
 
-The assignment operator `=` is not defined for the `csv` type and constraint 
-system variables can not be assigned :
+The assignment operator `=` is not defined for the `csv` type and constraint
+system variables can not be assigned:
 
 ```go
     var x, y csv
@@ -62,8 +62,9 @@ system variables can not be assigned :
 ```
 
 In CsGo, constraints are defined by the variable equality operator `===`.
-The equality operator defines a mathematical equation, and asserts that its lhs 
-and rhs, which both must be `csv`, are equal.
+The equality operator defines a mathematical equation, and asserts that its lhs
+and rhs, which both must be `csv` or `&csv` (See [Aliases](intro.md#aliasing)),
+are equal.
 
 ```go
     var x, y csv
@@ -71,11 +72,11 @@ and rhs, which both must be `csv`, are equal.
     x === y
 ```
 
-Multiplication `*` and addition `+` operators are defined for the `csv` type;
+Multiplication `*` and addition `+` operators are defined for the `csv` and
+`&csv` type;
 they perform multiplication and addition modulus some prime number, that is
 known only at runtime.
-Both sides of the operator must be a `csv` and the result will always be a
-`csv`.
+The operands must be `csv` or `&csv`, and the result will always be a `csv`.
 
 ```go
     var x, y, z csv
@@ -85,14 +86,16 @@ Both sides of the operator must be a `csv` and the result will always be a
 
 #### Aliasing
 
-Constraint system variables can have aliases. An alias of a constraint 
-system variable has the type: `&csv`. The operators `+`,`*` and `===` can 
+Constraint system variables can have aliases. An alias of a `csv` has the type:
+`&csv`. The operators `+`,`*` and `===` can
 operate on the `&csv` type, the same way they operate on the `csv` type:
+(*We do not allow the implicit conversion of `&csv` to `csv`, because that
+will become problematic for hints.*)
 
 ```go
     var x, y csv
     var z &csv = x
-    y*y === z + 2     // is equevalent to y*y === x + 2
+    y*y === z + 2   // is equevalent to y*y === x + 2
 ```
 
 Aliases can also be defined for anonymous temporary variables:
@@ -105,9 +108,9 @@ Aliases can also be defined for anonymous temporary variables:
 An alias is a mutable type and can be mutated by the `=` operator:
 
 ```go
-    y := x    // declares y as an alias for x
-    y = y + z // updates y to be an alias for x + z
-    y = y + w // updates y to be an alias for x + z + w
+    y := x      // declares y as an alias for x
+    y = y + z   // updates y to be an alias for x + z
+    y = y + w   // updates y to be an alias for x + z + w
 ```
 
 Aliasing can simplify declaration of complex constraints:
@@ -123,8 +126,8 @@ Aliasing can simplify declaration of complex constraints:
 ### Relations
 
 In mathematics, relations can be thought of as a generalization for functions,
-where one input may correspond to multiple outputs. As an example, assume
-the following constraint:
+where one input may correspond to multiple outputs. Assume the following
+constraint:
 
 ```go
     z === x + 2*y
@@ -282,6 +285,8 @@ A hint does not return a newly created variable, and can only modify an
 existing variable. That's because a hint provides a witness for an existing
 constraints system variable, which should be constrained outside the hint
 function.
+
+### Annotations
 
 ### Proofs of Membership
 
