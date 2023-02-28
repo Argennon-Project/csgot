@@ -246,7 +246,7 @@ rel r(x, y) (z, w) {
     // 2 === a - b
 ```
 
-In practice, relations are usually used to represent circuit components and
+In practice, relations are usually used to represent circuit components, and
 they usually define a function.
 
 Alternatively, instead of the `rel` keyword,
@@ -310,13 +310,63 @@ Calling and using a hint has a special syntax:
     h2<10>(x1, x2) -> (x3, y)
 ```
 
-A hint does not return a newly created variable, and it only modifies 
-existing variables that are passed as output. That's because a hint provides a 
+A hint does not return a newly created variable, and it only modifies
+existing variables that are passed as output. That's because a hint provides a
 witness for an existing
 constraint system variable, that should have been constrained outside the hint
 function.
 
 ### Annotations
+
+Consider the following Go's statement:
+
+```go
+func f(x int) bool {
+    // body
+}
+```
+
+This statement essentially declares a *contract* for a function. This
+contract states that the function `f` takes one parameter of type `int`, and
+returns a value of type `bool`. This contract is
+*enforced* by the Go's compiler at compile time, and can never be broken. That
+means, no matter how the function is called, inside the body of the function,
+`x` will be an `int`, and no matter how the function is implemented, the
+caller of the function `f` will get a `bool` as the return value.
+
+Having similar typed signatures for CsGo's relations seems an appealing idea.
+However, unfortunately, because of the nature of constraint systems, the CsGo's
+compiler would not be able to enforce such a contract at compile time.
+Enforcing it at runtime would also be complex and would introduce extra
+constraints that may not be always desirable.
+
+While typed signatures can not be fully enforced by the CsGo's compiler, they
+still can record important information about a programmer's intentions and
+could be used by the compiler to produce helpful warnings that may prevent
+dangerous programming errors.
+
+The CsGo language uses the concept of annotations to add more specific type
+information to declarations. Annotations are optional and can be used for
+declaring some sort of *soft* contracts: a contract that will not be
+enforced by the
+compiler, but may be used for generating warnings or documenting useful
+information. All annotations start with the `@` symbol, and can be from
+different *categories*. The `type` category may be used for adding extra type
+information to a relation or variable declaration:
+
+```go
+rel addInt64<wrapping bool>(a, b) c 
+@type: a, b, c int64 {
+    \\ body
+}
+```
+
+```go
+    var x csv
+    var y, z csv @type: bool, int
+```
+
+Note that all annotations are **optional** and may be omitted.
 
 ### Proofs of Membership
 
