@@ -5,14 +5,20 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="120c301b-9f7a-4f70-b11f-20a2d16c562f" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/src/test/java/SomeTest.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/intro.md" beforeDir="false" afterPath="$PROJECT_DIR$/docs/intro.md" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Class" />
+      </list>
+    </option>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -113,7 +119,21 @@
       <option name="project" value="LOCAL" />
       <updated>1677587559260</updated>
     </task>
-    <option name="localTasksCounter" value="8" />
+    <task id="LOCAL-00008" summary="Add the `Annotations` subsection">
+      <created>1677593355846</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1677593355846</updated>
+    </task>
+    <task id="LOCAL-00009" summary="Fix a typo">
+      <created>1677593756219</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1677593756219</updated>
+    </task>
+    <option name="localTasksCounter" value="10" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -135,7 +155,9 @@
     <MESSAGE value="Complete the intro" />
     <MESSAGE value="Fix some typos" />
     <MESSAGE value="Fix readability issues" />
-    <option name="LAST_COMMIT_MESSAGE" value="Fix readability issues" />
+    <MESSAGE value="Add the `Annotations` subsection" />
+    <MESSAGE value="Fix a typo" />
+    <option name="LAST_COMMIT_MESSAGE" value="Fix a typo" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />
