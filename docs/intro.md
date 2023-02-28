@@ -1,7 +1,7 @@
-## CsGo: A Language for Declaring Constraint Systems Using Go Programs
+# CsGo: A Language for Declaring Constraint Systems Using Go Programs
 
 The CsGo language augments the normal syntax of the Go programming language to
-enable easy declaration of polynomial constraint systems using Go programs.
+enable easy declaration of polynomial constraint systems* using Go programs.
 A CsGo program is essentially a Go program that declares a system of
 polynomial constraints when is executed. The exact definition
 of the constraint system may be decided at runtime, depending on the program
@@ -16,6 +16,16 @@ declaring polynomial constraint systems. It does **not**
 intend to be an automatic tool for converting a conventional program to a
 constraint system. Therefore, it intentionally exposes low level
 properties of the underlying constraint system to the programmer.
+
+- **Here, by a polynomial constraint system, we mean a set of equality
+  constraints of the form `P(x_1, x_2, ...,x_n) == 0`, where `P` is a
+  multivariate
+  polynomial defined on a finite field.*
+
+## Programming Concepts
+
+The CsGo language adds a few programming concepts to a normal Go program to 
+facilitate declaration of polynomial constraint systems.
 
 ### Constraint System Variables
 
@@ -378,9 +388,8 @@ Note that all annotations are **optional** and may be omitted.
 #### Partition Selector
 
 `StepMask` generates a step like function into an output array of length
-`outputLen`,
-such that its first `stepPosition` elements are equal to `startValue` and the
-remaining elements are equal to `endValue`:
+`outputLen`, such that its first `stepPosition` elements are equal to 
+`startValue` and the remaining elements are equal to `endValue`:
 
 ```go
 rel StepMask<outputLen int>(stepPosition, startValue, endValue) out[] {
@@ -402,8 +411,8 @@ rel StepMask<outputLen int>(stepPosition, startValue, endValue) out[] {
 }
 ```
 
-Now we use `StepMask` to right the `Partition` relation, which selects left or
-right side of the `input` array, with respect to the `pivotPosition`.
+Now we use `StepMask` to write the `Partition` relation, which selects 
+left or right side of an `input` array, with respect to `pivotPosition`.
 
 ```go
 rel Partition<rightSide bool>(pivotPosition, input[]) out[] {
