@@ -357,13 +357,14 @@ information to a relation or variable declaration:
 ```go
 rel addInt64<wrapping bool>(a, b) c 
 @type: a, b, c int64 {
-    \\ body
+    // body
 }
 ```
 
 ```go
     var x csv
-    var y, z csv @type: bool, int
+    var y csv @type: int32
+    var z, w csv @type: bool, int
 ```
 
 Note that all annotations are **optional** and may be omitted.
