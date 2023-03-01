@@ -225,7 +225,7 @@ rel r(x, y) {
 ```go
     var a, b csv
     r(a, b)     
-    // same as writing:
+    // same as:
     // a === b
 ``` 
 
@@ -246,12 +246,12 @@ rel r(x, y) (z, w) {
     var c, d &csv
     
     (c, d) = r(a, b) 
-    // same as writing:
+    // same as:
     // c === a + b
     // d === a - b
     
     r(a, b) === (1, 2)
-    // same as writing:
+    // same as:
     // 1 === a + b
     // 2 === a - b
 ```
@@ -379,13 +379,13 @@ rel addInt64<wrapping bool>(a, b) c
 
 Note that all annotations are **optional** and may be omitted.
 
-### Proofs of Membership
+## Proofs of Membership
 
 ...
 
-### Examples
+## Examples
 
-#### Partition Selector
+### Partition Selector
 
 `StepMask` generates a step like function into an output array of length
 `outputLen`, such that its first `stepPosition` elements are equal to 
