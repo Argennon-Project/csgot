@@ -4,10 +4,31 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="120c301b-9f7a-4f70-b11f-20a2d16c562f" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+    <list default="true" id="120c301b-9f7a-4f70-b11f-20a2d16c562f" name="Changes" comment="Add a Go grammar and parser">
+      <change afterPath="$PROJECT_DIR$/files/test.csgo" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/files/test.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/gen/org/argennon/csgot/parser/CsGoLexer.interp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/gen/org/argennon/csgot/parser/CsGoLexer.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/gen/org/argennon/csgot/parser/CsGoLexer.tokens" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/gen/org/argennon/csgot/parser/CsGoParser.interp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/gen/org/argennon/csgot/parser/CsGoParser.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/gen/org/argennon/csgot/parser/CsGoParser.tokens" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/gen/org/argennon/csgot/parser/CsGoParserBase.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/gen/org/argennon/csgot/parser/CsGoParserBaseListener.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/gen/org/argennon/csgot/parser/CsGoParserBaseVisitor.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/gen/org/argennon/csgot/parser/CsGoParserListener.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/gen/org/argennon/csgot/parser/CsGoParserVisitor.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/Main.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/StringBasedReporter.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/org/argennon/csgot/CsGoTranspiler.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/org/argennon/csgot/MessageReporter.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/org/argennon/csgot/README.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/org/argennon/csgot/grammar/CsGoLexer.g4" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/org/argennon/csgot/grammar/CsGoParser.g4" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/intro.md" beforeDir="false" afterPath="$PROJECT_DIR$/docs/intro.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/argennon/Main.java" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -47,21 +68,41 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;Downloaded.Files.Path.Enabled&quot;: &quot;false&quot;,
-    &quot;Repository.Attach.Annotations&quot;: &quot;false&quot;,
-    &quot;Repository.Attach.JavaDocs&quot;: &quot;false&quot;,
-    &quot;Repository.Attach.Sources&quot;: &quot;false&quot;,
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
-    &quot;project.structure.last.edited&quot;: &quot;Libraries&quot;,
-    &quot;project.structure.proportion&quot;: &quot;0.0&quot;,
-    &quot;project.structure.side.proportion&quot;: &quot;0.0&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;reference.projectsettings.compiler.javacompiler&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Downloaded.Files.Path.Enabled": "false",
+    "Repository.Attach.Annotations": "false",
+    "Repository.Attach.JavaDocs": "false",
+    "Repository.Attach.Sources": "false",
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "last_opened_file_path": "/home/aybehrouz/IdeaProjects/csgo/gen",
+    "project.structure.last.edited": "Libraries",
+    "project.structure.proportion": "0.0",
+    "project.structure.side.proportion": "0.0",
+    "settings.editor.selected.configurable": "reference.projectsettings.compiler.javacompiler"
   }
-}</component>
+}]]></component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/files" />
+    </key>
+  </component>
+  <component name="RunManager">
+    <configuration name="Main" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="Main" />
+      <module name="csgot" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Application.Main" />
+      </list>
+    </recent_temporary>
+  </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
@@ -141,7 +182,21 @@
       <option name="project" value="LOCAL" />
       <updated>1677694480377</updated>
     </task>
-    <option name="localTasksCounter" value="11" />
+    <task id="LOCAL-00011" summary="Update README.md">
+      <created>1677753773099</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1677753773099</updated>
+    </task>
+    <task id="LOCAL-00012" summary="Update README.md">
+      <created>1677753851376</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1677753851376</updated>
+    </task>
+    <option name="localTasksCounter" value="13" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -166,7 +221,8 @@
     <MESSAGE value="Add the `Annotations` subsection" />
     <MESSAGE value="Fix a typo" />
     <MESSAGE value="Update README.md" />
-    <option name="LAST_COMMIT_MESSAGE" value="Update README.md" />
+    <MESSAGE value="Add a Go grammar and parser" />
+    <option name="LAST_COMMIT_MESSAGE" value="Add a Go grammar and parser" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />
