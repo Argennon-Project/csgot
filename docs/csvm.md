@@ -1,35 +1,43 @@
-### CSVM: Constraint System Virtual Machine
+## CSVM: The Constraint System Virtual Machine
 
 The CSVM is a virtual machine tailored for declaring a system of
 polynomial constraints and acts as an intermediate representation for
 constraint systems. It is a stack machine and its operand stack only
-stores constraint system variables, hence called the csv stack.
+stores constraint system variables, hence called the *csv stack*.
 
 Besides the operand stack the CSVM has an internal memory. This internal
 memory is used for storing the declared constraints, aliases, hints and
-relations. The CSVM has a very compact and simple instruction set.
+relations.
 
-### Instructions
+## Instruction Set
+
+The CSVM has a very compact and simple instruction set. The CSVM instructions
+may have zero or more constant `string` or `integer` operands, supplying
+arguments or
+data that are used by the operation. The CSVM does **not** support looping or 
+conditional jumps.
 
 ### push
 
-**Format:** `push csv`
+**Format:** `push i | push name | push name[i]`
 
-Pushes `csv` onto the csv stack. `csv` can be an integer constant or the
-name of a constraint system variable.
+**Description:** pushes a constraint system variable onto the csv stack. `i`
+is an integer constant, and `name` is a string representing the name of a
+constraint system variable.
 
 **CSV Stack:**
 
 ```
 ...,
-...,csv <-
+...,v <-
 ```
 
 ### add
 
 **Format:** `add`
 
-Pops two variables from the csv stack, and pushes a new anonymous
+**Description:** pops two variables from the csv stack, and pushes a new
+anonymous
 variable onto the stack that represents their sum.
 
 **CSV Stack:**
@@ -43,7 +51,8 @@ variable onto the stack that represents their sum.
 
 **Format:** `sub`
 
-Pops two variables from the csv stack, and pushes a new anonymous
+**Description:** pops two variables from the csv stack, and pushes a new
+anonymous
 variable onto the stack that represents their subtraction.
 
 **CSV Stack:**
@@ -57,7 +66,8 @@ variable onto the stack that represents their subtraction.
 
 **Format:** `mul`
 
-Pops two variables from the csv stack, and pushes a new anonymous
+**Description:** pops two variables from the csv stack, and pushes a new
+anonymous
 variable onto the stack that represents their multiplication.
 
 **CSV Stack:**
@@ -71,8 +81,8 @@ variable onto the stack that represents their multiplication.
 
 **Format:** `alias name`
 
-Pops the csv stack, and assigns `name` as an alias for it. It
-does not push anything onto the csv stack.
+**Description:** pops one variable form the csv stack, and assigns `name` as
+an alias for it. It does not push anything onto the csv stack.
 
 **CSV Stack:**
 
@@ -85,7 +95,8 @@ does not push anything onto the csv stack.
 
 **Format:** `eq`
 
-Pops two variables `v1`, `v2` from the csv stack, and defines the
+**Description:** pops two variables `v1`, `v2` from the csv stack, and
+defines an
 equality constraint `v1 === v2` between them. It does not push anything onto
 the csv stack.
 
@@ -96,16 +107,48 @@ the csv stack.
 ...,
 ```
 
+### def_rel
+
+**Format:** `def_rel r<m,n>`
+
+**Description:** defines the relation `r` with `m` inputs and `n` outputs, and
+stores it in the internal memory.
+Pops variables `v1,v2,...,vm` and `u1,u2,...,un` from the csv stack and
+defines the relation `r` with `v1,v2,...,vm` as
+inputs and `u1,u2,...,un` as outputs. Until the next `end_def` instruction, all
+declared constraints will be considered inside the relation `r`.
+
+**CSV Stack:**
+
+```
+...,u1,u2,...,un,v1,v2,...,vm, ->
+...,
+```
+
+### end_def
+
+**Format:** `end_def`
+
+**Description:** ends the declaration of the last relation.
+
+**CSV Stack:**
+
+```
+...,
+...,
+```
+
 ### call_rel
 
 **Format:** `call_rel r`
 
-If `r` has `m` inputs and `n` outputs, `call_rel` pops `m`
+**Description:** calls relation `r` from the internal memory. If `r`
+has `m` inputs and `n` outputs, `call_rel` pops `m`
 variables `v1,v2,...,vm` from the csv stack, and pushes `n` **anonymous**
-variables
-onto the csv stack, such that: `(u1, u2, ..., un) = r(v1, v2, ..., vn)`. (We
-gave the anonymous variable names `u1,u2,....,un` for clarity, while they don't
-have a name)
+variables onto the csv stack, representing the outputs of
+the relation: `(u1, u2, ..., un) = r(v1, v2, ..., vn)`.
+(We gave the anonymous variables some names `u1,u2,....,un` for clarity, but
+they don't have any name)
 
 **CSV Stack:**
 
@@ -114,42 +157,14 @@ have a name)
 ...,u1,u2,...,un <-
 ```
 
-### def_rel
-
-**Format:** `def_rel r`
-
-Pops constant integers `m` and `n` and variables `v1,v2,...,vm` and
-`u1,u2,...,un` from the csv stack and defines the relation `r` 
-with `v1,v2,...,vm` as
-inputs and `u1,u2,...,un` as outputs. Until the next `end_def` instruction all 
-declared constraints will be considered inside the relation `r`.
-
-**CSV Stack:**
-
-```
-...,u1,u2,...,un,v1,v2,...,vm,n,m ->
-...,
-```
-
-### end_def
-
-**Format:** `end_def`
-
-Ends the declaration of the last relation.
-
-**CSV Stack:**
-
-```
-...,
-...,
-```
-
 ### call_hint
 
 **Format:** `call_hint h`
 
-If `h` has `m` inputs and `n` outputs, `call_hint` Pops `m+n` variables `v1,
-v2,...,vm` and `w1,w2,...,wn` from the csv stack, 
+**Description:** associates the hint `h` form the internal memory with 
+variables. If `h` has `m` 
+inputs and `n` outputs, `call_hint` pops `m+n` 
+variables `v1,v2,...,vm` and `w1,w2,...,wn` from the csv stack,
 and registers `h(v1,v2, ..., vm)` as a hint for `w1,w2,...,wn`.
 
 **CSV Stack:**
@@ -160,8 +175,8 @@ and registers `h(v1,v2, ..., vm)` as a hint for `w1,w2,...,wn`.
 ```
 
 ## Examples
+#### Declaring a simple equality contraint:
 
-```
     // x * (y + z) === w*w
     push x
     push y
@@ -172,4 +187,3 @@ and registers `h(v1,v2, ..., vm)` as a hint for `w1,w2,...,wn`.
     push w
     mul
     eq
-```

@@ -17,14 +17,25 @@ intend to be an automatic tool for converting a conventional program to a
 constraint system. Therefore, it intentionally exposes low level
 properties of the underlying constraint system to the programmer.
 
-- **Here, by a polynomial constraint system, we mean a set of equality
+- *Here, by a polynomial constraint system, we mean a set of equality
   constraints of the form `P(x_1, x_2, ...,x_n) == 0`, where `P` is a
   multivariate
   polynomial defined on a finite field.*
 
+## CSVM as an Intermediate Representation
+
+The [CSVM](https://github.com/aybehrouz/csgo/blob/main/docs/csvm.md) is a
+virtual machine tailored for declaring polynomial
+constraint systems. When a CsGo program is executed, it generates a CSVM
+code; when this code is executed by the CSVM, it declares the intended
+constrain system. In other words, the CSVM code acts as an intermediate
+representation (IR) of the constraint system, CsGo programs declare the
+constraint system by executing
+[CSVM instructions](https://github.com/aybehrouz/csgo/blob/main/docs/csvm.md#instruction-set).
+
 ## Programming Concepts
 
-The CsGo language adds a few programming concepts to a normal Go program to 
+The CsGo language adds a few programming concepts to a normal Go program to
 facilitate declaration of polynomial constraint systems.
 
 ### Constraint System Variables
@@ -388,7 +399,7 @@ Note that all annotations are **optional** and may be omitted.
 ### Partition Selector
 
 `StepMask` generates a step like function into an output array of length
-`outputLen`, such that its first `stepPosition` elements are equal to 
+`outputLen`, such that its first `stepPosition` elements are equal to
 `startValue` and the remaining elements are equal to `endValue`:
 
 ```go
@@ -411,7 +422,7 @@ rel StepMask<outputLen int>(stepPosition, startValue, endValue) out[] {
 }
 ```
 
-Now we use `StepMask` to write the `Partition` relation, which selects 
+Now we use `StepMask` to write the `Partition` relation, which selects
 left or right side of an `input` array, with respect to `pivotPosition`.
 
 ```go
