@@ -18,7 +18,7 @@ constraint system. Therefore, it intentionally exposes low level
 properties of the underlying constraint system to the programmer.
 
 - *Here, by a polynomial constraint system, we mean a set of equality
-  constraints of the form `P(x_1, x_2, ...,x_n) == 0`, where `P` is a
+  constraints of the form `P(x_1, x_2, ..., x_n) == 0`, where `P` is a
   multivariate
   polynomial defined on a finite field.*
 
@@ -28,8 +28,8 @@ The [CSVM](https://github.com/aybehrouz/csgo/blob/main/docs/csvm.md) is a
 virtual machine tailored for declaring polynomial
 constraint systems. When a CsGo program is executed, it generates a CSVM
 code; when this code is executed by the CSVM, it declares the intended
-constrain system. In other words, the CSVM code acts as an intermediate
-representation (IR) of the constraint system, CsGo programs declare the
+constraint system. In other words, the CSVM code acts as an intermediate
+representation (IR) of the constraint system, and CsGo programs declare the
 constraint system by executing
 [CSVM instructions](https://github.com/aybehrouz/csgo/blob/main/docs/csvm.md#instruction-set).
 
@@ -43,7 +43,7 @@ facilitate declaration of polynomial constraint systems.
 #### Declaration
 
 CsGo adds a new type to Go's basic types: the `csv` type, which represents a
-variable in a constraint system defined on a finite field. A `csv` is
+variable in a polynomial constraint system defined on a finite field. A `csv` is
 declared like a normal Go variable:
 
 ```go
@@ -94,10 +94,10 @@ are equal.
     x === y
 ```
 
-Multiplication `*` and addition `+` operators are defined for the `csv` and
+Multiplication `*` and addition `+,-` operators are defined for the `csv` and
 `&csv` type;
-they perform multiplication and addition modulus some prime number which is
-known only at runtime.
+they perform multiplication and addition (subtraction) modulus some prime 
+number which is known only at runtime.
 The operands must be `csv` or `&csv`, and the result will always be a `csv`.
 
 ```go
@@ -109,7 +109,7 @@ The operands must be `csv` or `&csv`, and the result will always be a `csv`.
 #### Aliasing
 
 Constraint system variables can have aliases. An alias of a `csv` has the type:
-`&csv`. The operators `+`,`*` and `===` can
+`&csv`. The operators `+`,`-`,`*` and `===` can
 operate on the `&csv` type, the same way they operate on the `csv` type:
 (**We do not allow the implicit conversion of `&csv` to `csv`, because that
 will become problematic for hints.*)

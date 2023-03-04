@@ -10,5 +10,4 @@ more information see the
 
 ### Installation
 
-Clone the repository using an IDE that supports maven, and everything should 
-work! 
+...

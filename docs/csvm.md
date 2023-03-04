@@ -81,7 +81,7 @@ variable onto the stack that represents their multiplication.
 
 **Format:** `alias name`
 
-**Description:** pops one variable form the csv stack, and assigns `name` as
+**Description:** pops one variable from the csv stack, and assigns `name` as
 an alias for it. It does not push anything onto the csv stack.
 
 **CSV Stack:**
@@ -161,7 +161,7 @@ they don't have any name)
 
 **Format:** `call_hint h`
 
-**Description:** associates the hint `h` form the internal memory with 
+**Description:** associates the hint `h` from the internal memory with 
 variables. If `h` has `m` 
 inputs and `n` outputs, `call_hint` pops `m+n` 
 variables `v1,v2,...,vm` and `w1,w2,...,wn` from the csv stack,
@@ -175,7 +175,7 @@ and registers `h(v1,v2, ..., vm)` as a hint for `w1,w2,...,wn`.
 ```
 
 ## Examples
-#### Declaring a simple equality contraint:
+#### Declaring a simple equality constraint:
 
     // x * (y + z) === w*w
     push x
