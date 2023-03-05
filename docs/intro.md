@@ -111,7 +111,7 @@ The operands must be `csv` or `&csv`, and the result will always be a `csv`.
 Constraint system variables can have aliases. An alias of a `csv` has the type:
 `&csv`. The operators `+`,`-`,`*` and `===` can
 operate on the `&csv` type, the same way they operate on the `csv` type:
-(**We do not allow the implicit conversion of `&csv` to `csv`, because that
+(*We do not allow the implicit conversion of `&csv` to `csv`, because that
 will become problematic for hints.*)
 
 ```go

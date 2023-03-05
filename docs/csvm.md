@@ -14,7 +14,7 @@ relations.
 The CSVM has a very compact and simple instruction set. The CSVM instructions
 may have zero or more constant `string` or `integer` operands, supplying
 arguments or
-data that are used by the operation. The CSVM does **not** support looping or 
+data that are used by the operation. The CSVM does **not** support looping or
 conditional jumps.
 
 ### push
@@ -81,7 +81,7 @@ variable onto the stack that represents their multiplication.
 
 **Format:** `alias name`
 
-**Description:** pops one variable from the csv stack, stores it in the 
+**Description:** pops one variable from the csv stack, stores it in the
 internal memory, and assigns `name` as
 an alias for it. It does not push anything onto the csv stack.
 
@@ -162,9 +162,8 @@ they don't have any name)
 
 **Format:** `call_hint h`
 
-**Description:** associates the hint `h` from the internal memory with some  
-variables. If `h` has `m` 
-inputs and `n` outputs, `call_hint` pops `m+n` 
+**Description:** associates the hint `h` from the internal memory with some
+variables. If `h` has `m` inputs and `n` outputs, `call_hint` pops `m+n`
 variables `v1,v2,...,vm` and `w1,w2,...,wn` from the csv stack,
 and registers `h(v1,v2, ..., vm)` as a hint for `w1,w2,...,wn`.
 
@@ -176,6 +175,7 @@ and registers `h(v1,v2, ..., vm)` as a hint for `w1,w2,...,wn`.
 ```
 
 ## Examples
+
 #### Declaring a simple equality constraint:
 
     // x * (y + z) === w*w
