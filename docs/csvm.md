@@ -5,8 +5,8 @@ polynomial constraints and acts as an intermediate representation for
 constraint systems. It is a stack machine and its operand stack only
 stores constraint system variables, hence called the *csv stack*.
 
-Besides the operand stack the CSVM has an internal memory. This internal
-memory is used for storing the declared constraints, aliases, hints and
+Besides the operand stack, the CSVM has an internal memory. This internal
+memory is used for storing declared constraints, aliases, hints and
 relations.
 
 ## Instruction Set
@@ -81,7 +81,8 @@ variable onto the stack that represents their multiplication.
 
 **Format:** `alias name`
 
-**Description:** pops one variable from the csv stack, and assigns `name` as
+**Description:** pops one variable from the csv stack, stores it in the 
+internal memory, and assigns `name` as
 an alias for it. It does not push anything onto the csv stack.
 
 **CSV Stack:**
@@ -147,7 +148,7 @@ has `m` inputs and `n` outputs, `call_rel` pops `m`
 variables `v1,v2,...,vm` from the csv stack, and pushes `n` **anonymous**
 variables onto the csv stack, representing the outputs of
 the relation: `(u1, u2, ..., un) = r(v1, v2, ..., vn)`.
-(We gave the anonymous variables some names `u1,u2,....,un` for clarity, but
+(For clarity, we gave the anonymous variables some names `u1,u2,....,un`, but
 they don't have any name)
 
 **CSV Stack:**
@@ -161,7 +162,7 @@ they don't have any name)
 
 **Format:** `call_hint h`
 
-**Description:** associates the hint `h` from the internal memory with 
+**Description:** associates the hint `h` from the internal memory with some  
 variables. If `h` has `m` 
 inputs and `n` outputs, `call_hint` pops `m+n` 
 variables `v1,v2,...,vm` and `w1,w2,...,wn` from the csv stack,

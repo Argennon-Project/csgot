@@ -96,7 +96,7 @@ are equal.
 
 Multiplication `*` and addition `+,-` operators are defined for the `csv` and
 `&csv` type;
-they perform multiplication and addition (subtraction) modulus some prime 
+they perform multiplication and addition (subtraction) modulus some prime
 number which is known only at runtime.
 The operands must be `csv` or `&csv`, and the result will always be a `csv`.
 
@@ -263,15 +263,15 @@ rel r(x, y) (z, w) {
     
     r(a, b) === (1, 2)
     // same as:
-    // 1 === a + b
-    // 2 === a - b
+    // a + b === 1
+    // a - b === 2
 ```
 
 In practice, relations are usually used to represent circuit components, and
 they usually define a function.
 
 Alternatively, instead of the `rel` keyword,
-the `comp` keyword, which stands for *component*, can also be used for
+the `comp` keyword, which stands for *component*, can be used for
 declaring a relation:
 
 ```go
@@ -317,10 +317,10 @@ hint h2<n int>(x, y) (z, w[]) {
 The declaration syntax of hints resembles the declaration syntax of relations,
 but there are some important semantic differences: When the hint
 is called, the passed inputs and outputs must be `csv`. However, inside the
-implementation body of the hint, inputs are `big.Int` and outputs are `big.
-Int*`. That's because a `csv` is *unpacked* inside a hint function and
+implementation body of the hint, inputs are `big.Int` and outputs
+are `big.Int*`. That's because a `csv` is *unpacked* inside a hint function and
 the value of inputs can be read, and the value of outputs can be modified.
-Note that inputs are passed by value and modifying them has no effect.
+Note that inputs are passed by value and modifying them has no effects.
 
 Calling and using a hint has a special syntax:
 
@@ -332,9 +332,9 @@ Calling and using a hint has a special syntax:
 ```
 
 A hint does not return a newly created variable, and it only modifies
-existing variables that are passed as output. That's because a hint provides a
+existing variables that are passed as outputs. That's because a hint provides a
 witness for an existing
-constraint system variable, that should have been constrained outside the hint
+constraint system variable that should be properly constrained outside the hint
 function.
 
 ### Annotations
