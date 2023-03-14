@@ -2,6 +2,7 @@ package org.argennon.csgot;
 
 
 import org.antlr.v4.runtime.*;
+import org.antlr.v4.runtime.tree.ParseTreeProperty;
 import org.antlr.v4.runtime.tree.ParseTreeWalker;
 import org.argennon.csgot.parser.CsGoLexer;
 import org.argennon.csgot.parser.CsGoParser;
@@ -35,13 +36,15 @@ public class CsGoTranspiler {
             // begin parsing at initial rule and store the generated parse tree.
             var tree = parser.sourceFile();
 
-            ParseTreeWalker walker = new ParseTreeWalker(); // create standard walker
-            var inserter = new InsertNameSpaceListener(tokens);
-            walker.walk(inserter, tree); // initiate walk of tree with listener
+            // create standard walker
+            ParseTreeWalker walker = new ParseTreeWalker();
+            var listener = new MainTranspilerListener(tokens);
+            // initiate walk of tree with listener
+            walker.walk(listener, tree);
 
             writer.println("// generated from " + input.getName());
             // print back ALTERED stream
-            writer.println(inserter.rewriter.getText());
+            writer.println(listener.rewriter.getText());
             return true;
         } catch (RuntimeException err) {
             System.err.println(err.getMessage() + ".");
@@ -58,10 +61,66 @@ class ErrorTerminator extends BaseErrorListener {
     }
 }
 
-class InsertNameSpaceListener extends CsGoParserBaseListener {
+class MainTranspilerListener extends CsGoParserBaseListener {
     TokenStreamRewriter rewriter;
+    ParseTreeProperty<String> convertedExpr = new ParseTreeProperty<String>();
 
-    public InsertNameSpaceListener(TokenStream tokens) {
+    public MainTranspilerListener(TokenStream tokens) {
         rewriter = new TokenStreamRewriter(tokens);
+    }
+
+    @Override
+    public void enterTypeName(CsGoParser.TypeNameContext ctx) {
+        if (ctx.IDENTIFIER() != null && ctx.IDENTIFIER().getText().equals("csv")) {
+            rewriter.replace(ctx.start, ctx.stop, "frontend.Variable");
+        }
+    }
+
+    @Override
+    public void exitConstraintDecl(CsGoParser.ConstraintDeclContext ctx) {
+        var lhs = convertedExpr.get(ctx.expression(0));
+        var rhs = convertedExpr.get(ctx.expression(1));
+        rewriter.replace(ctx.start, ctx.stop,
+                String.format("api.AssertIsEqual(%s, %s)", lhs, rhs));
+    }
+
+    @Override
+    public void exitAdd(CsGoParser.AddContext ctx) {
+        var lhs = convertedExpr.get(ctx.expression(0));
+        var rhs = convertedExpr.get(ctx.expression(1));
+
+        if (ctx.add_op.getType() == CsGoParser.PLUS) {
+            convertedExpr.put(ctx, String.format("api.Add(%s, %s)", lhs, rhs));
+        } else if (ctx.add_op.getType() == CsGoParser.MINUS) {
+            convertedExpr.put(ctx, String.format("api.Sub(%s, %s)", lhs, rhs));
+        }
+    }
+
+    @Override
+    public void exitMul(CsGoParser.MulContext ctx) {
+        var lhs = convertedExpr.get(ctx.expression(0));
+        var rhs = convertedExpr.get(ctx.expression(1));
+        if (ctx.mul_op.getType() == CsGoParser.STAR)
+            convertedExpr.put(ctx, String.format("api.Mul(%s, %s)", lhs, rhs));
+    }
+
+    @Override
+    public void exitOperand(CsGoParser.OperandContext ctx) {
+        var expr = ctx.expression();
+        if (expr != null) {
+            convertedExpr.put(ctx, convertedExpr.get(expr));
+        } else {
+            convertedExpr.put(ctx, ctx.getText());
+        }
+    }
+
+    @Override
+    public void exitPrimary(CsGoParser.PrimaryContext ctx) {
+        var operand = ctx.primaryExpr().operand();
+        if (operand != null) {
+            convertedExpr.put(ctx, convertedExpr.get(operand));
+        } else {
+            convertedExpr.put(ctx, ctx.getText());
+        }
     }
 }

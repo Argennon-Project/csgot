@@ -137,6 +137,12 @@ public interface CsGoParserVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitSimpleStmt(CsGoParser.SimpleStmtContext ctx);
 	/**
+	 * Visit a parse tree produced by {@link CsGoParser#constraintDecl}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitConstraintDecl(CsGoParser.ConstraintDeclContext ctx);
+	/**
 	 * Visit a parse tree produced by {@link CsGoParser#expressionStmt}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
@@ -431,11 +437,33 @@ public interface CsGoParserVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitParameterDecl(CsGoParser.ParameterDeclContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link CsGoParser#expression}.
+	 * Visit a parse tree produced by the {@code Add}
+	 * labeled alternative in {@link CsGoParser#expression}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitExpression(CsGoParser.ExpressionContext ctx);
+	T visitAdd(CsGoParser.AddContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code Mul}
+	 * labeled alternative in {@link CsGoParser#expression}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitMul(CsGoParser.MulContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code Primary}
+	 * labeled alternative in {@link CsGoParser#expression}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitPrimary(CsGoParser.PrimaryContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code Dc}
+	 * labeled alternative in {@link CsGoParser#expression}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitDc(CsGoParser.DcContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link CsGoParser#primaryExpr}.
 	 * @param ctx the parse tree

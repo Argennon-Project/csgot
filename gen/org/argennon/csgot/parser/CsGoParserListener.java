@@ -218,6 +218,16 @@ public interface CsGoParserListener extends ParseTreeListener {
 	 */
 	void exitSimpleStmt(CsGoParser.SimpleStmtContext ctx);
 	/**
+	 * Enter a parse tree produced by {@link CsGoParser#constraintDecl}.
+	 * @param ctx the parse tree
+	 */
+	void enterConstraintDecl(CsGoParser.ConstraintDeclContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link CsGoParser#constraintDecl}.
+	 * @param ctx the parse tree
+	 */
+	void exitConstraintDecl(CsGoParser.ConstraintDeclContext ctx);
+	/**
 	 * Enter a parse tree produced by {@link CsGoParser#expressionStmt}.
 	 * @param ctx the parse tree
 	 */
@@ -708,15 +718,53 @@ public interface CsGoParserListener extends ParseTreeListener {
 	 */
 	void exitParameterDecl(CsGoParser.ParameterDeclContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link CsGoParser#expression}.
+	 * Enter a parse tree produced by the {@code Add}
+	 * labeled alternative in {@link CsGoParser#expression}.
 	 * @param ctx the parse tree
 	 */
-	void enterExpression(CsGoParser.ExpressionContext ctx);
+	void enterAdd(CsGoParser.AddContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link CsGoParser#expression}.
+	 * Exit a parse tree produced by the {@code Add}
+	 * labeled alternative in {@link CsGoParser#expression}.
 	 * @param ctx the parse tree
 	 */
-	void exitExpression(CsGoParser.ExpressionContext ctx);
+	void exitAdd(CsGoParser.AddContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code Mul}
+	 * labeled alternative in {@link CsGoParser#expression}.
+	 * @param ctx the parse tree
+	 */
+	void enterMul(CsGoParser.MulContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code Mul}
+	 * labeled alternative in {@link CsGoParser#expression}.
+	 * @param ctx the parse tree
+	 */
+	void exitMul(CsGoParser.MulContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code Primary}
+	 * labeled alternative in {@link CsGoParser#expression}.
+	 * @param ctx the parse tree
+	 */
+	void enterPrimary(CsGoParser.PrimaryContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code Primary}
+	 * labeled alternative in {@link CsGoParser#expression}.
+	 * @param ctx the parse tree
+	 */
+	void exitPrimary(CsGoParser.PrimaryContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code Dc}
+	 * labeled alternative in {@link CsGoParser#expression}.
+	 * @param ctx the parse tree
+	 */
+	void enterDc(CsGoParser.DcContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code Dc}
+	 * labeled alternative in {@link CsGoParser#expression}.
+	 * @param ctx the parse tree
+	 */
+	void exitDc(CsGoParser.DcContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link CsGoParser#primaryExpr}.
 	 * @param ctx the parse tree

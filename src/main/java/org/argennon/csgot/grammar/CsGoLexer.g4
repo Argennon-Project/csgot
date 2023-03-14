@@ -93,6 +93,7 @@ LOGICAL_AND            : '&&';
 
 // Relation operators
 
+EQUATION               : '===';
 EQUALS                 : '==';
 NOT_EQUALS             : '!=';
 LESS                   : '<';

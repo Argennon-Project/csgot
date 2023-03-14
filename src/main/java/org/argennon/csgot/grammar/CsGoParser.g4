@@ -99,11 +99,14 @@ statement:
 	| deferStmt;
 
 simpleStmt:
-	sendStmt
+	constraintDecl
+	| sendStmt
 	| incDecStmt
 	| assignment
 	| expressionStmt
 	| shortVarDecl;
+
+constraintDecl: expression EQUATION expression;
 
 expressionStmt: expression;
 
@@ -248,7 +251,7 @@ parameters:
 parameterDecl: identifierList? ELLIPSIS? type_;
 
 expression:
-	primaryExpr
+	primaryExpr             # Primary
 	| unary_op = (
 		PLUS
 		| MINUS
@@ -257,7 +260,7 @@ expression:
 		| STAR
 		| AMPERSAND
 		| RECEIVE
-	) expression
+	) expression            # Dc
 	| expression mul_op = (
 		STAR
 		| DIV
@@ -266,8 +269,13 @@ expression:
 		| RSHIFT
 		| AMPERSAND
 		| BIT_CLEAR
-	) expression
-	| expression add_op = (PLUS | MINUS | OR | CARET) expression
+	) expression            # Mul
+	| expression add_op = (
+	    PLUS
+	    | MINUS
+	    | OR
+	    | CARET
+	) expression            # Add
 	| expression rel_op = (
 		EQUALS
 		| NOT_EQUALS
@@ -275,9 +283,10 @@ expression:
 		| LESS_OR_EQUALS
 		| GREATER
 		| GREATER_OR_EQUALS
-	) expression
-	| expression LOGICAL_AND expression
-	| expression LOGICAL_OR expression;
+	) expression            # Dc
+	| expression LOGICAL_AND expression     # Dc
+	| expression LOGICAL_OR expression      # Dc
+	;
 
 primaryExpr:
 	operand
