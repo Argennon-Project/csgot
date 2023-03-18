@@ -127,7 +127,7 @@ class MainTranspilerListener extends CsGoParserBaseListener {
     @Override
     public void exitRelationDecl(CsGoParser.RelationDeclContext ctx) {
         rewriter.replace(ctx.REL().getSymbol(), "func");
-        rewriter.replace(ctx.templates().LESS().getSymbol(), "(");
+        rewriter.replace(ctx.templates().LESS().getSymbol(), "(api frontend.API, ");
         rewriter.delete(ctx.templates().GREATER().getSymbol());
         rewriter.replace(ctx.parameters().L_PAREN().getSymbol(), ", ");
     }
