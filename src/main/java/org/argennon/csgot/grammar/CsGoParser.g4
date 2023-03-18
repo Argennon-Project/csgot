@@ -35,7 +35,7 @@ options {
 
 sourceFile:
 	packageClause eos (importDecl eos)* (
-		(functionDecl | methodDecl | declaration) eos
+		(relationDecl | functionDecl | methodDecl | declaration) eos
 	)* EOF;
 
 packageClause: PACKAGE packageName = IDENTIFIER;
@@ -66,6 +66,8 @@ typeSpec: IDENTIFIER ASSIGN? type_;
 functionDecl: FUNC IDENTIFIER (signature block?);
 
 methodDecl: FUNC receiver IDENTIFIER ( signature block?);
+
+relationDecl: REL IDENTIFIER templates parameters result? block?;
 
 receiver: parameters;
 
@@ -245,8 +247,11 @@ signature:
 
 result: parameters | type_;
 
-parameters:
-	L_PAREN (parameterDecl (COMMA parameterDecl)* COMMA?)? R_PAREN;
+templates : LESS paramList GREATER;
+
+parameters:	L_PAREN paramList R_PAREN;
+
+paramList: (parameterDecl (COMMA parameterDecl)* COMMA?)?;
 
 parameterDecl: identifierList? ELLIPSIS? type_;
 

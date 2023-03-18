@@ -148,6 +148,16 @@ public interface CsGoParserListener extends ParseTreeListener {
 	 */
 	void exitMethodDecl(CsGoParser.MethodDeclContext ctx);
 	/**
+	 * Enter a parse tree produced by {@link CsGoParser#relationDecl}.
+	 * @param ctx the parse tree
+	 */
+	void enterRelationDecl(CsGoParser.RelationDeclContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link CsGoParser#relationDecl}.
+	 * @param ctx the parse tree
+	 */
+	void exitRelationDecl(CsGoParser.RelationDeclContext ctx);
+	/**
 	 * Enter a parse tree produced by {@link CsGoParser#receiver}.
 	 * @param ctx the parse tree
 	 */
@@ -698,6 +708,16 @@ public interface CsGoParserListener extends ParseTreeListener {
 	 */
 	void exitResult(CsGoParser.ResultContext ctx);
 	/**
+	 * Enter a parse tree produced by {@link CsGoParser#templates}.
+	 * @param ctx the parse tree
+	 */
+	void enterTemplates(CsGoParser.TemplatesContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link CsGoParser#templates}.
+	 * @param ctx the parse tree
+	 */
+	void exitTemplates(CsGoParser.TemplatesContext ctx);
+	/**
 	 * Enter a parse tree produced by {@link CsGoParser#parameters}.
 	 * @param ctx the parse tree
 	 */
@@ -707,6 +727,16 @@ public interface CsGoParserListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitParameters(CsGoParser.ParametersContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link CsGoParser#paramList}.
+	 * @param ctx the parse tree
+	 */
+	void enterParamList(CsGoParser.ParamListContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link CsGoParser#paramList}.
+	 * @param ctx the parse tree
+	 */
+	void exitParamList(CsGoParser.ParamListContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link CsGoParser#parameterDecl}.
 	 * @param ctx the parse tree

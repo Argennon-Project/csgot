@@ -95,6 +95,12 @@ public interface CsGoParserVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitMethodDecl(CsGoParser.MethodDeclContext ctx);
 	/**
+	 * Visit a parse tree produced by {@link CsGoParser#relationDecl}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitRelationDecl(CsGoParser.RelationDeclContext ctx);
+	/**
 	 * Visit a parse tree produced by {@link CsGoParser#receiver}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
@@ -425,11 +431,23 @@ public interface CsGoParserVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitResult(CsGoParser.ResultContext ctx);
 	/**
+	 * Visit a parse tree produced by {@link CsGoParser#templates}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitTemplates(CsGoParser.TemplatesContext ctx);
+	/**
 	 * Visit a parse tree produced by {@link CsGoParser#parameters}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
 	T visitParameters(CsGoParser.ParametersContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link CsGoParser#paramList}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitParamList(CsGoParser.ParamListContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link CsGoParser#parameterDecl}.
 	 * @param ctx the parse tree

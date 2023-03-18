@@ -41,6 +41,7 @@ lexer grammar CsGoLexer;
 BREAK                  : 'break' -> mode(NLSEMI);
 DEFAULT                : 'default';
 FUNC                   : 'func';
+REL                    : 'rel';
 INTERFACE              : 'interface';
 SELECT                 : 'select';
 CASE                   : 'case';

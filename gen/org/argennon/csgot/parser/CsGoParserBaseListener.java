@@ -185,6 +185,18 @@ public class CsGoParserBaseListener implements CsGoParserListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
+	@Override public void enterRelationDecl(CsGoParser.RelationDeclContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitRelationDecl(CsGoParser.RelationDeclContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
 	@Override public void enterReceiver(CsGoParser.ReceiverContext ctx) { }
 	/**
 	 * {@inheritDoc}
@@ -845,6 +857,18 @@ public class CsGoParserBaseListener implements CsGoParserListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
+	@Override public void enterTemplates(CsGoParser.TemplatesContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitTemplates(CsGoParser.TemplatesContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
 	@Override public void enterParameters(CsGoParser.ParametersContext ctx) { }
 	/**
 	 * {@inheritDoc}
@@ -852,6 +876,18 @@ public class CsGoParserBaseListener implements CsGoParserListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitParameters(CsGoParser.ParametersContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterParamList(CsGoParser.ParamListContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitParamList(CsGoParser.ParamListContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
