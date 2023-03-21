@@ -105,8 +105,10 @@ simpleStmt:
 	| sendStmt
 	| incDecStmt
 	| assignment
+	| aliasing
 	| expressionStmt
-	| shortVarDecl;
+	| shortVarDecl
+	| shortAliasDecl;
 
 constraintDecl: expression EQUATION expression;
 
@@ -115,6 +117,8 @@ expressionStmt: expression;
 sendStmt: channel = expression RECEIVE expression;
 
 incDecStmt: expression (PLUS_PLUS | MINUS_MINUS);
+
+aliasing: expressionList ALIAS_ASSIGN expression;
 
 assignment: expressionList assign_op expressionList;
 
@@ -133,6 +137,8 @@ assign_op: (
 	)? ASSIGN;
 
 shortVarDecl: identifierList DECLARE_ASSIGN expressionList;
+
+shortAliasDecl: identifierList DECLARE_ALIAS expressionList;
 
 emptyStmt: EOS | SEMI;
 

@@ -85,6 +85,21 @@ class MainTranspilerListener extends CsGoParserBaseListener {
     }
 
     @Override
+    public void exitAliasing(CsGoParser.AliasingContext ctx) {
+        var rhs = convertedExpr.get(ctx.expression());
+        rewriter.replace(ctx.ALIAS_ASSIGN().getSymbol(), "=");
+        rewriter.replace(ctx.expression().start, ctx.expression().stop, rhs);
+    }
+
+    @Override
+    public void exitShortAliasDecl(CsGoParser.ShortAliasDeclContext ctx) {
+        rewriter.replace(ctx.DECLARE_ALIAS().getSymbol(), ":=");
+        for (CsGoParser.ExpressionContext expression : ctx.expressionList().expression()) {
+            rewriter.replace(expression.start, expression.stop, convertedExpr.get(expression));
+        }
+    }
+
+    @Override
     public void exitAdd(CsGoParser.AddContext ctx) {
         var lhs = convertedExpr.get(ctx.expression(0));
         var rhs = convertedExpr.get(ctx.expression(1));
@@ -123,6 +138,7 @@ class MainTranspilerListener extends CsGoParserBaseListener {
             convertedExpr.put(ctx, ctx.getText());
         }
     }
+
 
     @Override
     public void exitRelationDecl(CsGoParser.RelationDeclContext ctx) {

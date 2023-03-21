@@ -167,6 +167,12 @@ public interface CsGoParserVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitIncDecStmt(CsGoParser.IncDecStmtContext ctx);
 	/**
+	 * Visit a parse tree produced by {@link CsGoParser#aliasing}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitAliasing(CsGoParser.AliasingContext ctx);
+	/**
 	 * Visit a parse tree produced by {@link CsGoParser#assignment}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
@@ -184,6 +190,12 @@ public interface CsGoParserVisitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitShortVarDecl(CsGoParser.ShortVarDeclContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link CsGoParser#shortAliasDecl}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitShortAliasDecl(CsGoParser.ShortAliasDeclContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link CsGoParser#emptyStmt}.
 	 * @param ctx the parse tree

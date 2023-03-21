@@ -78,6 +78,7 @@ R_CURLY                : '}' -> mode(NLSEMI);
 L_BRACKET              : '[';
 R_BRACKET              : ']' -> mode(NLSEMI);
 ASSIGN                 : '=';
+ALIAS_ASSIGN           : '<==';
 COMMA                  : ',';
 SEMI                   : ';';
 COLON                  : ':';
@@ -85,6 +86,7 @@ DOT                    : '.';
 PLUS_PLUS              : '++' -> mode(NLSEMI);
 MINUS_MINUS            : '--' -> mode(NLSEMI);
 DECLARE_ASSIGN         : ':=';
+DECLARE_ALIAS          : ':==';
 ELLIPSIS               : '...';
 
 // Logical

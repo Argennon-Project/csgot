@@ -329,6 +329,18 @@ public class CsGoParserBaseListener implements CsGoParserListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
+	@Override public void enterAliasing(CsGoParser.AliasingContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitAliasing(CsGoParser.AliasingContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
 	@Override public void enterAssignment(CsGoParser.AssignmentContext ctx) { }
 	/**
 	 * {@inheritDoc}
@@ -360,6 +372,18 @@ public class CsGoParserBaseListener implements CsGoParserListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitShortVarDecl(CsGoParser.ShortVarDeclContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterShortAliasDecl(CsGoParser.ShortAliasDeclContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitShortAliasDecl(CsGoParser.ShortAliasDeclContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
