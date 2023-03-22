@@ -77,6 +77,11 @@ class MainTranspilerListener extends CsGoParserBaseListener {
     }
 
     @Override
+    public void enterAliasType(CsGoParser.AliasTypeContext ctx) {
+        rewriter.delete(ctx.AMPERSAND().getSymbol());
+    }
+
+    @Override
     public void exitConstraintDecl(CsGoParser.ConstraintDeclContext ctx) {
         var lhs = convertedExpr.get(ctx.expression(0));
         var rhs = convertedExpr.get(ctx.expression(1));
@@ -132,19 +137,60 @@ class MainTranspilerListener extends CsGoParserBaseListener {
     @Override
     public void exitPrimary(CsGoParser.PrimaryContext ctx) {
         var operand = ctx.primaryExpr().operand();
+        var args = ctx.primaryExpr().templateAndArgs();
         if (operand != null) {
             convertedExpr.put(ctx, convertedExpr.get(operand));
+        } else if (args != null) {
+            convertedExpr.put(ctx, String.format("%s(%s)",
+                    ctx.primaryExpr().primaryExpr().getText(), convertedExpr.get(args)));
         } else {
             convertedExpr.put(ctx, ctx.getText());
         }
     }
 
+    @Override
+    public void exitTemplateAndArgs(CsGoParser.TemplateAndArgsContext ctx) {
+        if (ctx.templates() == null) {
+            convertedExpr.put(ctx, ctx.getText());
+            return;
+        }
+
+        var templateArgs = ctx.templates().argList();
+        var args = ctx.arguments().argList();
+        String converted;
+        if (templateArgs != null && args != null) {
+            converted = String.format("%s, %s", templateArgs.getText(), args.getText());
+        } else if (templateArgs != null) {
+            converted = templateArgs.getText();
+        } else if (args != null) {
+            converted = args.getText();
+        } else {
+            converted = "";
+        }
+        convertedExpr.put(ctx, converted);
+        // we need to also rewrite, in case convertedExpr is not used at upper nodes.
+        rewriter.replace(ctx.start, ctx.stop, String.format("(%s)", converted));
+    }
 
     @Override
     public void exitRelationDecl(CsGoParser.RelationDeclContext ctx) {
         rewriter.replace(ctx.REL().getSymbol(), "func");
-        rewriter.replace(ctx.templates().LESS().getSymbol(), "(api frontend.API, ");
-        rewriter.delete(ctx.templates().GREATER().getSymbol());
+        rewriter.insertAfter(ctx.IDENTIFIER().getSymbol(), "(api frontend.API");
+        if (ctx.templateParams() != null) {
+            rewriter.replace(ctx.templateParams().LESS().getSymbol(), ", ");
+            rewriter.delete(ctx.templateParams().GREATER().getSymbol());
+        }
         rewriter.replace(ctx.parameters().L_PAREN().getSymbol(), ", ");
+    }
+
+    @Override
+    public void exitHintCall(CsGoParser.HintCallContext ctx) {
+        rewriter.replace(ctx.start, ctx.stop,
+                String.format("%s = api.Compiler().NewHint(%s, %s)",
+                        ctx.identifierList().getText(),
+                        ctx.IDENTIFIER().getText(),
+                        convertedExpr.get(ctx.templateAndArgs())
+                )
+        );
     }
 }

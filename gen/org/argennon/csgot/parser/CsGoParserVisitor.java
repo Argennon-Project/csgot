@@ -143,6 +143,12 @@ public interface CsGoParserVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitSimpleStmt(CsGoParser.SimpleStmtContext ctx);
 	/**
+	 * Visit a parse tree produced by {@link CsGoParser#hintCall}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitHintCall(CsGoParser.HintCallContext ctx);
+	/**
 	 * Visit a parse tree produced by {@link CsGoParser#constraintDecl}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
@@ -395,6 +401,12 @@ public interface CsGoParserVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitPointerType(CsGoParser.PointerTypeContext ctx);
 	/**
+	 * Visit a parse tree produced by {@link CsGoParser#aliasType}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitAliasType(CsGoParser.AliasTypeContext ctx);
+	/**
 	 * Visit a parse tree produced by {@link CsGoParser#interfaceType}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
@@ -443,11 +455,11 @@ public interface CsGoParserVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitResult(CsGoParser.ResultContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link CsGoParser#templates}.
+	 * Visit a parse tree produced by {@link CsGoParser#templateParams}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitTemplates(CsGoParser.TemplatesContext ctx);
+	T visitTemplateParams(CsGoParser.TemplateParamsContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link CsGoParser#parameters}.
 	 * @param ctx the parse tree
@@ -639,11 +651,29 @@ public interface CsGoParserVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitTypeAssertion(CsGoParser.TypeAssertionContext ctx);
 	/**
+	 * Visit a parse tree produced by {@link CsGoParser#templateAndArgs}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitTemplateAndArgs(CsGoParser.TemplateAndArgsContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link CsGoParser#templates}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitTemplates(CsGoParser.TemplatesContext ctx);
+	/**
 	 * Visit a parse tree produced by {@link CsGoParser#arguments}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
 	T visitArguments(CsGoParser.ArgumentsContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link CsGoParser#argList}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitArgList(CsGoParser.ArgListContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link CsGoParser#methodExpr}.
 	 * @param ctx the parse tree

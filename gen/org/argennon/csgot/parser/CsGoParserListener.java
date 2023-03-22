@@ -228,6 +228,16 @@ public interface CsGoParserListener extends ParseTreeListener {
 	 */
 	void exitSimpleStmt(CsGoParser.SimpleStmtContext ctx);
 	/**
+	 * Enter a parse tree produced by {@link CsGoParser#hintCall}.
+	 * @param ctx the parse tree
+	 */
+	void enterHintCall(CsGoParser.HintCallContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link CsGoParser#hintCall}.
+	 * @param ctx the parse tree
+	 */
+	void exitHintCall(CsGoParser.HintCallContext ctx);
+	/**
 	 * Enter a parse tree produced by {@link CsGoParser#constraintDecl}.
 	 * @param ctx the parse tree
 	 */
@@ -648,6 +658,16 @@ public interface CsGoParserListener extends ParseTreeListener {
 	 */
 	void exitPointerType(CsGoParser.PointerTypeContext ctx);
 	/**
+	 * Enter a parse tree produced by {@link CsGoParser#aliasType}.
+	 * @param ctx the parse tree
+	 */
+	void enterAliasType(CsGoParser.AliasTypeContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link CsGoParser#aliasType}.
+	 * @param ctx the parse tree
+	 */
+	void exitAliasType(CsGoParser.AliasTypeContext ctx);
+	/**
 	 * Enter a parse tree produced by {@link CsGoParser#interfaceType}.
 	 * @param ctx the parse tree
 	 */
@@ -728,15 +748,15 @@ public interface CsGoParserListener extends ParseTreeListener {
 	 */
 	void exitResult(CsGoParser.ResultContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link CsGoParser#templates}.
+	 * Enter a parse tree produced by {@link CsGoParser#templateParams}.
 	 * @param ctx the parse tree
 	 */
-	void enterTemplates(CsGoParser.TemplatesContext ctx);
+	void enterTemplateParams(CsGoParser.TemplateParamsContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link CsGoParser#templates}.
+	 * Exit a parse tree produced by {@link CsGoParser#templateParams}.
 	 * @param ctx the parse tree
 	 */
-	void exitTemplates(CsGoParser.TemplatesContext ctx);
+	void exitTemplateParams(CsGoParser.TemplateParamsContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link CsGoParser#parameters}.
 	 * @param ctx the parse tree
@@ -1056,6 +1076,26 @@ public interface CsGoParserListener extends ParseTreeListener {
 	 */
 	void exitTypeAssertion(CsGoParser.TypeAssertionContext ctx);
 	/**
+	 * Enter a parse tree produced by {@link CsGoParser#templateAndArgs}.
+	 * @param ctx the parse tree
+	 */
+	void enterTemplateAndArgs(CsGoParser.TemplateAndArgsContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link CsGoParser#templateAndArgs}.
+	 * @param ctx the parse tree
+	 */
+	void exitTemplateAndArgs(CsGoParser.TemplateAndArgsContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link CsGoParser#templates}.
+	 * @param ctx the parse tree
+	 */
+	void enterTemplates(CsGoParser.TemplatesContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link CsGoParser#templates}.
+	 * @param ctx the parse tree
+	 */
+	void exitTemplates(CsGoParser.TemplatesContext ctx);
+	/**
 	 * Enter a parse tree produced by {@link CsGoParser#arguments}.
 	 * @param ctx the parse tree
 	 */
@@ -1065,6 +1105,16 @@ public interface CsGoParserListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitArguments(CsGoParser.ArgumentsContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link CsGoParser#argList}.
+	 * @param ctx the parse tree
+	 */
+	void enterArgList(CsGoParser.ArgListContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link CsGoParser#argList}.
+	 * @param ctx the parse tree
+	 */
+	void exitArgList(CsGoParser.ArgListContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link CsGoParser#methodExpr}.
 	 * @param ctx the parse tree

@@ -125,6 +125,7 @@ CARET                  : '^';
 STAR                   : '*';
 AMPERSAND              : '&';
 RECEIVE                : '<-';
+SEND                   : '->';
 
 // Number literals
 

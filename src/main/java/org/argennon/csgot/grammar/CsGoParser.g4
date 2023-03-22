@@ -67,7 +67,7 @@ functionDecl: FUNC IDENTIFIER (signature block?);
 
 methodDecl: FUNC receiver IDENTIFIER ( signature block?);
 
-relationDecl: REL IDENTIFIER templates parameters result? block?;
+relationDecl: REL IDENTIFIER templateParams? parameters result? block?;
 
 receiver: parameters;
 
@@ -105,10 +105,13 @@ simpleStmt:
 	| sendStmt
 	| incDecStmt
 	| assignment
+	| hintCall
 	| aliasing
 	| expressionStmt
 	| shortVarDecl
 	| shortAliasDecl;
+
+hintCall: IDENTIFIER templateAndArgs SEND identifierList;
 
 constraintDecl: expression EQUATION expression;
 
@@ -217,6 +220,7 @@ typeLit:
 	arrayType
 	| structType
 	| pointerType
+	| aliasType
 	| functionType
 	| interfaceType
 	| sliceType
@@ -230,6 +234,8 @@ arrayLength: expression;
 elementType: type_;
 
 pointerType: STAR type_;
+
+aliasType: AMPERSAND type_;
 
 interfaceType:
 	INTERFACE L_CURLY ((methodSpec | typeName) eos)* R_CURLY;
@@ -253,7 +259,7 @@ signature:
 
 result: parameters | type_;
 
-templates : LESS paramList GREATER;
+templateParams : LESS paramList GREATER;
 
 parameters:	L_PAREN paramList R_PAREN;
 
@@ -308,7 +314,7 @@ primaryExpr:
 		| index
 		| slice_
 		| typeAssertion
-		| arguments
+		| templateAndArgs
 	);
 
 
@@ -381,10 +387,13 @@ slice_:
 
 typeAssertion: DOT L_PAREN type_ R_PAREN;
 
-arguments:
-	L_PAREN (
-		(expressionList | nonNamedType (COMMA expressionList)?) ELLIPSIS? COMMA?
-	)? R_PAREN;
+templateAndArgs: templates? arguments;
+
+templates : LESS argList? GREATER ;
+
+arguments: L_PAREN argList? R_PAREN;
+
+argList : (expressionList | nonNamedType (COMMA expressionList)?) ELLIPSIS? COMMA? ;
 
 methodExpr: nonNamedType DOT IDENTIFIER;
 

@@ -281,6 +281,18 @@ public class CsGoParserBaseListener implements CsGoParserListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
+	@Override public void enterHintCall(CsGoParser.HintCallContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitHintCall(CsGoParser.HintCallContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
 	@Override public void enterConstraintDecl(CsGoParser.ConstraintDeclContext ctx) { }
 	/**
 	 * {@inheritDoc}
@@ -785,6 +797,18 @@ public class CsGoParserBaseListener implements CsGoParserListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
+	@Override public void enterAliasType(CsGoParser.AliasTypeContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitAliasType(CsGoParser.AliasTypeContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
 	@Override public void enterInterfaceType(CsGoParser.InterfaceTypeContext ctx) { }
 	/**
 	 * {@inheritDoc}
@@ -881,13 +905,13 @@ public class CsGoParserBaseListener implements CsGoParserListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterTemplates(CsGoParser.TemplatesContext ctx) { }
+	@Override public void enterTemplateParams(CsGoParser.TemplateParamsContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitTemplates(CsGoParser.TemplatesContext ctx) { }
+	@Override public void exitTemplateParams(CsGoParser.TemplateParamsContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -1265,6 +1289,30 @@ public class CsGoParserBaseListener implements CsGoParserListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
+	@Override public void enterTemplateAndArgs(CsGoParser.TemplateAndArgsContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitTemplateAndArgs(CsGoParser.TemplateAndArgsContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterTemplates(CsGoParser.TemplatesContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitTemplates(CsGoParser.TemplatesContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
 	@Override public void enterArguments(CsGoParser.ArgumentsContext ctx) { }
 	/**
 	 * {@inheritDoc}
@@ -1272,6 +1320,18 @@ public class CsGoParserBaseListener implements CsGoParserListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitArguments(CsGoParser.ArgumentsContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterArgList(CsGoParser.ArgListContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitArgList(CsGoParser.ArgListContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
