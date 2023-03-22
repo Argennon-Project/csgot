@@ -7,12 +7,12 @@ func Partition(api frontend.API, rightSide bool, pivotPosition frontend.Variable
 	var mask []frontend.Variable
 	// we create a bit mask to multiply with the input.
 	if rightSide {
-		mask = stepMask(len(input), pivotPosition,0,1)
+		mask = stepMask(api, len(input), pivotPosition,0,1)
 	} else {
-		mask = stepMask(len(input), pivotPosition,1,0)
+		mask = stepMask(api, len(input), pivotPosition,1,0)
 	}
 	for i := 0; i < len(out); i++ {
-		api.AssertIsEqual(out[i], api.Mul(mask[i], input[i]))
+		out[i] = api.Mul(mask[i], input[i])
 	}
 	return
 }
@@ -38,7 +38,7 @@ func stepMask(api frontend.API, outputLen int, stepPosition, startValue, endValu
 
 	// add the boundary constraints:
 	api.AssertIsEqual(api.Mul(api.Sub(out[0], startValue), stepPosition), 0)
-	api.AssertIsEqual(api.Mul(api.Sub(out[len(out)-1], endValue), api.Sub(len((out)), stepPosition)), 0)
+	api.AssertIsEqual(api.Mul(api.Sub(out[len(out)-1], endValue), api.Sub(len(api, (out)), stepPosition)), 0)
 
 	// add constraints for the correct form of a step function that steps at the stepPosition
 	for i := 1; i < len(out); i++ {

@@ -141,7 +141,7 @@ class MainTranspilerListener extends CsGoParserBaseListener {
         if (operand != null) {
             convertedExpr.put(ctx, convertedExpr.get(operand));
         } else if (args != null) {
-            convertedExpr.put(ctx, String.format("%s(%s)",
+            convertedExpr.put(ctx, String.format("%s(api, %s)",
                     ctx.primaryExpr().primaryExpr().getText(), convertedExpr.get(args)));
         } else {
             convertedExpr.put(ctx, ctx.getText());
@@ -169,7 +169,7 @@ class MainTranspilerListener extends CsGoParserBaseListener {
         }
         convertedExpr.put(ctx, converted);
         // we need to also rewrite, in case convertedExpr is not used at upper nodes.
-        rewriter.replace(ctx.start, ctx.stop, String.format("(%s)", converted));
+        rewriter.replace(ctx.start, ctx.stop, String.format("(api, %s)", converted));
     }
 
     @Override

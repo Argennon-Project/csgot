@@ -3,7 +3,7 @@ package selector
 
 rel Partition<rightSide bool>(pivotPosition frontend.Variable, input []csv) (out []csv) {
 	out = make([]csv, len(input))
-	var mask []&csv
+	var mask []csv
 	// we create a bit mask to multiply with the input.
 	if rightSide {
 		mask <== stepMask<len(input)>(pivotPosition, 0, 1)
@@ -11,7 +11,7 @@ rel Partition<rightSide bool>(pivotPosition frontend.Variable, input []csv) (out
 		mask <== stepMask<len(input)>(pivotPosition, 1, 0)
 	}
 	for i := 0; i < len(out); i++ {
-		out[i] === mask[i] * input[i]
+		out[i] <== mask[i] * input[i]
 	}
 	return
 }
