@@ -1,7 +1,7 @@
 package selector
 
 
-rel Partition<rightSide bool>(pivotPosition frontend.Variable, input []csv) (out []csv) {
+rel Partition<rightSide bool>(pivotPosition csv, input []csv) (out []csv) {
 	out = make([]csv, len(input))
 	var mask []csv
 	// we create a bit mask to multiply with the input.
@@ -28,12 +28,9 @@ rel stepMask<outputLen int>(stepPosition, startValue, endValue csv) []csv {
 		panic("the output len of StepMask must be >= 2")
 	}
 	// get the output as a hint
-	var out csv
-	var err error
-	stepOutput<outputLen>(stepPosition, startValue, endValue) -> out, err
-	if err != nil {
-		panic(fmt.Sprintf("error in calling StepMask hint: %v", err))
-	}
+	var out []csv
+	stepOutput<outputLen>(stepPosition, startValue, endValue) -> out
+
 
 	// add the boundary constraints:
 	(out[0] - startValue) * stepPosition === 0
