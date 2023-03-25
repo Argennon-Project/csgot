@@ -134,8 +134,8 @@ class MainTranspilerListener extends CsGoParserBaseListener {
     }
 
     @Override
-    public void exitShortAliasDecl(CsGoParser.ShortAliasDeclContext ctx) {
-        rewriter.replace(ctx.DECLARE_ALIAS().getSymbol(), ":=");
+    public void exitCsvDeclAssign(CsGoParser.CsvDeclAssignContext ctx) {
+        rewriter.replace(ctx.ALIAS_ASSIGN().getSymbol(), "=");
         for (CsGoParser.ExpressionContext expression : ctx.expressionList().expression()) {
             rewriter.replace(expression.start, expression.stop, convertedExpr.get(expression));
         }

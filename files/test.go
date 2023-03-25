@@ -8,7 +8,7 @@ func main() {
     var x frontend.Variable
     api.AssertIsEqual(x, api.Mul(y, api.Add(a, b)))
     x = api.Mul(y, z)
-    x, y := api.Add(api.Mul(2, a), b), api.Add(z, 1)
+    var x, y frontend.Variable = api.Add(api.Mul(2, a), b), api.Add(z, 1)
     r(3,n, x)
     r(x, y)
     r(x,y)

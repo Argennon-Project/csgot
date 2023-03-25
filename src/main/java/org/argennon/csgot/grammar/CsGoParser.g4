@@ -74,10 +74,13 @@ receiver: parameters;
 varDecl: VAR (varSpec | L_PAREN (varSpec eos)* R_PAREN);
 
 varSpec:
-	identifierList (
+    csvDeclAssign
+	| identifierList (
 		type_ (ASSIGN expressionList)?
 		| ASSIGN expressionList
 	);
+
+csvDeclAssign: identifierList type_ ALIAS_ASSIGN expressionList;
 
 block: L_CURLY statementList? R_CURLY;
 
@@ -108,8 +111,7 @@ simpleStmt:
 	| hintCall
 	| aliasing
 	| expressionStmt
-	| shortVarDecl
-	| shortAliasDecl;
+	| shortVarDecl;
 
 hintCall: IDENTIFIER templateAndArgs SEND identifierList;
 
@@ -140,8 +142,6 @@ assign_op: (
 	)? ASSIGN;
 
 shortVarDecl: identifierList DECLARE_ASSIGN expressionList;
-
-shortAliasDecl: identifierList DECLARE_ALIAS expressionList;
 
 emptyStmt: EOS | SEMI;
 

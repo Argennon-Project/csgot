@@ -233,6 +233,18 @@ public class CsGoParserBaseListener implements CsGoParserListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
+	@Override public void enterCsvDeclAssign(CsGoParser.CsvDeclAssignContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitCsvDeclAssign(CsGoParser.CsvDeclAssignContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
 	@Override public void enterBlock(CsGoParser.BlockContext ctx) { }
 	/**
 	 * {@inheritDoc}
@@ -384,18 +396,6 @@ public class CsGoParserBaseListener implements CsGoParserListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitShortVarDecl(CsGoParser.ShortVarDeclContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void enterShortAliasDecl(CsGoParser.ShortAliasDeclContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitShortAliasDecl(CsGoParser.ShortAliasDeclContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *

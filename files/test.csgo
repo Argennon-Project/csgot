@@ -4,7 +4,7 @@ func main() {
     var x &csv
     x === y * (a + b)
     x <== y * z
-    x, y :== 2*a + b, z + 1
+    var x, y csv <== 2*a + b, z + 1
     r<3, n>(x)
     r(x, y)
     r<>(x, y)
