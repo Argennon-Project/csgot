@@ -2,19 +2,23 @@
 
 package main
 
-import "github.com/consensys/gnark/frontend"
+
+import (
+	"apm/csgo/runtime"
+	"github.com/consensys/gnark/frontend"
+)
 
 func main() {
     var x frontend.Variable
-    api.AssertIsEqual(x, api.Mul(y, api.Add(a, b)))
-    x = api.Mul(y, z)
-    var x, y frontend.Variable = api.Add(api.Mul(2, a), b), api.Add(z, 1)
-    r(3,n+2, api.Add(x, y))
+    runtime.Api.AssertIsEqual(x, runtime.Api.Mul(y, runtime.Api.Add(a, b)))
+    x = runtime.Api.Mul(y, z)
+    var x, y frontend.Variable = runtime.Api.Add(runtime.Api.Mul(2, a), b), runtime.Api.Add(z, 1)
+    r(3,n+2, runtime.Api.Add(x, y))
     r(x, y+1)
-    r(x, api.Add(y, 1))
+    r(x, runtime.Api.Add(y, 1))
     x = stepMask(len(input), pivotPosition, 0, 1)
     x = stepMask(len(input), pivotPosition, 0, 1)
-    n,m, _ = api.Compiler().NewHint(h, 3,n+2, x, y, z)
+    n,m, _ = runtime.Api.Compiler().NewHint(h, 3,n+2, x, y, z)
 }
 
 func r(x frontend.Variable) {

@@ -91,7 +91,17 @@ class ErrorTerminator extends BaseErrorListener {
 }
 
 class MainTranspilerListener extends CsGoParserBaseListener {
-    private static final String IMPORTS = "import \"github.com/consensys/gnark/frontend\"";
+    private static final String IMPORTS = "\n" +
+            "import (\n" +
+            "\t\"apm/csgo/runtime\"\n" +        //TODO: this is fragile
+            "\t\"github.com/consensys/gnark/frontend\"\n" +
+            ")";
+    public static final String EQUAL_FMT = "runtime.Api.AssertIsEqual(%s, %s)";
+    public static final String ADD_FMT = "runtime.Api.Add(%s, %s)";
+    public static final String SUB_FMT = "runtime.Api.Sub(%s, %s)";
+    public static final String MUL_FMT = "runtime.Api.Mul(%s, %s)";
+    public static final String HINT_CALL_FMT = "%s, _ = runtime.Api.Compiler().NewHint(%s, %s)";
+    public static final String CSV_TYPE = "frontend.Variable";
     String packageName;
     TokenStreamRewriter rewriter;
     ParseTreeProperty<String> convertedExpr = new ParseTreeProperty<String>();
@@ -109,7 +119,7 @@ class MainTranspilerListener extends CsGoParserBaseListener {
     @Override
     public void enterTypeName(CsGoParser.TypeNameContext ctx) {
         if (ctx.IDENTIFIER() != null && ctx.IDENTIFIER().getText().equals("csv")) {
-            rewriter.replace(ctx.start, ctx.stop, "frontend.Variable");
+            rewriter.replace(ctx.start, ctx.stop, CSV_TYPE);
         }
     }
 
@@ -123,7 +133,7 @@ class MainTranspilerListener extends CsGoParserBaseListener {
         var lhs = convertedExpr.get(ctx.expression(0));
         var rhs = convertedExpr.get(ctx.expression(1));
         rewriter.replace(ctx.start, ctx.stop,
-                String.format("api.AssertIsEqual(%s, %s)", lhs, rhs));
+                String.format(EQUAL_FMT, lhs, rhs));
     }
 
     @Override
@@ -147,9 +157,9 @@ class MainTranspilerListener extends CsGoParserBaseListener {
         var rhs = convertedExpr.get(ctx.expression(1));
 
         if (ctx.add_op.getType() == CsGoParser.PLUS) {
-            convertedExpr.put(ctx, String.format("api.Add(%s, %s)", lhs, rhs));
+            convertedExpr.put(ctx, String.format(ADD_FMT, lhs, rhs));
         } else if (ctx.add_op.getType() == CsGoParser.MINUS) {
-            convertedExpr.put(ctx, String.format("api.Sub(%s, %s)", lhs, rhs));
+            convertedExpr.put(ctx, String.format(SUB_FMT, lhs, rhs));
         }
     }
 
@@ -158,7 +168,7 @@ class MainTranspilerListener extends CsGoParserBaseListener {
         var lhs = convertedExpr.get(ctx.expression(0));
         var rhs = convertedExpr.get(ctx.expression(1));
         if (ctx.mul_op.getType() == CsGoParser.STAR)
-            convertedExpr.put(ctx, String.format("api.Mul(%s, %s)", lhs, rhs));
+            convertedExpr.put(ctx, String.format(MUL_FMT, lhs, rhs));
     }
 
     @Override
@@ -236,7 +246,7 @@ class MainTranspilerListener extends CsGoParserBaseListener {
     @Override
     public void exitHintCall(CsGoParser.HintCallContext ctx) {
         rewriter.replace(ctx.start, ctx.stop,
-                String.format("%s, _ = api.Compiler().NewHint(%s, %s)",
+                String.format(HINT_CALL_FMT,
                         ctx.identifierList().getText(),
                         ctx.IDENTIFIER().getText(),
                         convertedExpr.get(ctx.templateAndArgs())
