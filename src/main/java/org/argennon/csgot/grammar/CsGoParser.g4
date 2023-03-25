@@ -35,7 +35,7 @@ options {
 
 sourceFile:
 	packageClause eos (importDecl eos)* (
-		(relationDecl | functionDecl | methodDecl | declaration) eos
+		(relationDecl | hintDecl | functionDecl | methodDecl | declaration) eos
 	)* EOF;
 
 packageClause: PACKAGE packageName = IDENTIFIER;
@@ -68,6 +68,8 @@ functionDecl: FUNC IDENTIFIER (signature block?);
 methodDecl: FUNC receiver IDENTIFIER ( signature block?);
 
 relationDecl: REL receiver? IDENTIFIER templateParams? parameters result? block;
+
+hintDecl: HINT IDENTIFIER signature block?;
 
 receiver: parameters;
 

@@ -101,6 +101,12 @@ public interface CsGoParserVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitRelationDecl(CsGoParser.RelationDeclContext ctx);
 	/**
+	 * Visit a parse tree produced by {@link CsGoParser#hintDecl}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitHintDecl(CsGoParser.HintDeclContext ctx);
+	/**
 	 * Visit a parse tree produced by {@link CsGoParser#receiver}.
 	 * @param ctx the parse tree
 	 * @return the visitor result

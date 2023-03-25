@@ -158,6 +158,16 @@ public interface CsGoParserListener extends ParseTreeListener {
 	 */
 	void exitRelationDecl(CsGoParser.RelationDeclContext ctx);
 	/**
+	 * Enter a parse tree produced by {@link CsGoParser#hintDecl}.
+	 * @param ctx the parse tree
+	 */
+	void enterHintDecl(CsGoParser.HintDeclContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link CsGoParser#hintDecl}.
+	 * @param ctx the parse tree
+	 */
+	void exitHintDecl(CsGoParser.HintDeclContext ctx);
+	/**
 	 * Enter a parse tree produced by {@link CsGoParser#receiver}.
 	 * @param ctx the parse tree
 	 */

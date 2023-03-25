@@ -12,27 +12,42 @@ import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.nio.file.Files;
+import java.util.ArrayList;
+import java.util.List;
 
 public class CsGoTranspiler {
-    public static final String GLOBALS_DECLARATIONS_FORMAT =
-            "package %s\n" +
-                    "\n" +
-                    "import (\n" +
-                    "\t\"github.com/consensys/gnark/frontend\"\n" +
-                    ")\n" +
-                    "\n" +
-                    "var api frontend.API\n" +
-                    "\n" +
-                    "func Configure(a frontend.API) {\n" +
-                    "\tapi = a\n" +
-                    "}\n";
-    public static final String GLOBALS_FILE_NAME = "globals.go";
+    private static final String COMMON_IMPORTS = "" +
+            "\t\"apm/csgo/api\"\n" +     //TODO: this is fragile
+            "\t\"github.com/consensys/gnark/frontend\"\n";
+    private static final String HINT_IMPORT = "\t\"github.com/consensys/gnark/backend/hint\"\n";
+    private static final String HINT_REGISTER_FORMAT = "hint.Register(%s)\n";
+    public static final String PKG_CONFIG_FILE_NAME = "globals.go";
 
     private final MessageReporter reporter;
+    final String srcImport, dstImport;
 
 
-    public CsGoTranspiler(MessageReporter reporter) {
+    public CsGoTranspiler(MessageReporter reporter, String srcImport, String dstImport) {
         this.reporter = reporter;
+        this.srcImport = srcImport;
+        this.dstImport = dstImport;
+    }
+
+
+    public void transpileDir(File srcDir, File dstDir) throws IOException {
+        var files = srcDir.listFiles();
+        if (files == null) throw new IOException(srcDir + " is not a valid directory");
+
+        for (File f : files) {
+            if (f.isDirectory()) {
+                transpileDir(f, new File(dstDir, f.getName()));
+            } else if (f.isFile() && f.getName().endsWith(".csgo")) {
+                transpileFile(
+                        f,
+                        new File(dstDir, f.getName().replace(".csgo", ".go"))
+                );
+            }
+        }
     }
 
     public boolean transpileFile(File input, File output) throws IOException {
@@ -56,22 +71,31 @@ public class CsGoTranspiler {
 
             // create standard walker
             ParseTreeWalker walker = new ParseTreeWalker();
-            var listener = new MainTranspilerListener(tokens);
+            var listener = new MainTranspilerListener(tokens, srcImport, dstImport);
             // initiate walk of tree with listener
             walker.walk(listener, tree);
 
-            var globalsFile = new File(output.getParentFile(), GLOBALS_FILE_NAME);
-            if (!globalsFile.exists()) {
-                reporter.generalMessage("creating " + globalsFile);
-                try (var wr = new PrintWriter(globalsFile)) {
-                    wr.printf(GLOBALS_DECLARATIONS_FORMAT, listener.packageName);
-                }
+            var pkgConfigFile = new File(output.getParentFile(), PKG_CONFIG_FILE_NAME);
+            if (!pkgConfigFile.exists()) {
+                reporter.generalMessage("no config: " + pkgConfigFile);
+            }
+
+            StringBuilder hintRegistrations = new StringBuilder();
+            for (String hint : listener.hints) {
+                hintRegistrations.append("\t").append(String.format(HINT_REGISTER_FORMAT, hint));
             }
 
             reporter.generalMessage("writing to " + output);
-            writer.printf("// generated from %s%n%n", input.getName());
+            writer.printf("// generated from %s\n\n", input.getName());
+            writer.printf("package %s\n\n", listener.packageName);
+            writer.printf("import (\n%s%s)",
+                    COMMON_IMPORTS,
+                    hintRegistrations.length() > 0 ? HINT_IMPORT : ""
+            );
             // print back ALTERED stream
             writer.println(listener.rewriter.getText());
+            if (hintRegistrations.length() > 0) writer.printf("func init() {\n%s}\n", hintRegistrations);
+
             return true;
         } catch (RuntimeException err) {
             System.err.println(err.getMessage() + ".");
@@ -91,29 +115,33 @@ class ErrorTerminator extends BaseErrorListener {
 }
 
 class MainTranspilerListener extends CsGoParserBaseListener {
-    private static final String IMPORTS = "\n" +
-            "import (\n" +
-            "\t\"apm/csgo/runtime\"\n" +        //TODO: this is fragile
-            "\t\"github.com/consensys/gnark/frontend\"\n" +
-            ")";
-    public static final String EQUAL_FMT = "runtime.Api.AssertIsEqual(%s, %s)";
-    public static final String ADD_FMT = "runtime.Api.Add(%s, %s)";
-    public static final String SUB_FMT = "runtime.Api.Sub(%s, %s)";
-    public static final String MUL_FMT = "runtime.Api.Mul(%s, %s)";
-    public static final String HINT_CALL_FMT = "%s, _ = runtime.Api.Compiler().NewHint(%s, %s)";
+    public static final String EQUAL_FORMAT = "api.AssertIsEqual(%s, %s)";
+    public static final String ADD_FORMAT = "api.Add(%s, %s)";
+    public static final String SUB_FORMAT = "api.Sub(%s, %s)";
+    public static final String MUL_FORMAT = "api.Mul(%s, %s)";
+    public static final String HINT_CALL_FORMAT = "%s, _ = api.Compiler().NewHint(%s, %s)";
     public static final String CSV_TYPE = "frontend.Variable";
     String packageName;
+    List<String> hints = new ArrayList<>();
     TokenStreamRewriter rewriter;
-    ParseTreeProperty<String> convertedExpr = new ParseTreeProperty<String>();
+    String srcImport, dstImport;
+    ParseTreeProperty<String> convertedExpr = new ParseTreeProperty<>();
 
-    public MainTranspilerListener(TokenStream tokens) {
+    public MainTranspilerListener(TokenStream tokens, String srcImport, String dstImport) {
         rewriter = new TokenStreamRewriter(tokens);
+        this.srcImport = srcImport;
+        this.dstImport = dstImport;
     }
 
     @Override
     public void enterPackageClause(CsGoParser.PackageClauseContext ctx) {
         packageName = ctx.IDENTIFIER().getText();
-        rewriter.insertAfter(ctx.stop, String.format("%n%n%s", IMPORTS));
+        rewriter.delete(ctx.start, ctx.stop);
+    }
+
+    @Override
+    public void exitImportPath(CsGoParser.ImportPathContext ctx) {
+        rewriter.replace(ctx.start, ctx.stop, ctx.string_().getText().replace(srcImport, dstImport));
     }
 
     @Override
@@ -133,7 +161,7 @@ class MainTranspilerListener extends CsGoParserBaseListener {
         var lhs = convertedExpr.get(ctx.expression(0));
         var rhs = convertedExpr.get(ctx.expression(1));
         rewriter.replace(ctx.start, ctx.stop,
-                String.format(EQUAL_FMT, lhs, rhs));
+                String.format(EQUAL_FORMAT, lhs, rhs));
     }
 
     @Override
@@ -157,9 +185,9 @@ class MainTranspilerListener extends CsGoParserBaseListener {
         var rhs = convertedExpr.get(ctx.expression(1));
 
         if (ctx.add_op.getType() == CsGoParser.PLUS) {
-            convertedExpr.put(ctx, String.format(ADD_FMT, lhs, rhs));
+            convertedExpr.put(ctx, String.format(ADD_FORMAT, lhs, rhs));
         } else if (ctx.add_op.getType() == CsGoParser.MINUS) {
-            convertedExpr.put(ctx, String.format(SUB_FMT, lhs, rhs));
+            convertedExpr.put(ctx, String.format(SUB_FORMAT, lhs, rhs));
         }
     }
 
@@ -168,7 +196,7 @@ class MainTranspilerListener extends CsGoParserBaseListener {
         var lhs = convertedExpr.get(ctx.expression(0));
         var rhs = convertedExpr.get(ctx.expression(1));
         if (ctx.mul_op.getType() == CsGoParser.STAR)
-            convertedExpr.put(ctx, String.format(MUL_FMT, lhs, rhs));
+            convertedExpr.put(ctx, String.format(MUL_FORMAT, lhs, rhs));
     }
 
     @Override
@@ -212,22 +240,23 @@ class MainTranspilerListener extends CsGoParserBaseListener {
             return;
         }
 
+        var converted = new StringBuilder();
+
         var templateArgs = ctx.templates().argList();
-        var args = ctx.arguments().argList();
-        String converted;
-        if (templateArgs != null && args != null) {
-            converted = String.format("%s, %s",
-                    templateArgs.getText(),
-                    convertedExpr.get(args.expressionList())
-            );
-        } else if (templateArgs != null) {
-            converted = templateArgs.getText();
-        } else if (args != null) {
-            converted = convertedExpr.get(args.expressionList());
-        } else {
-            converted = "";
+        if (templateArgs != null) {
+            converted.append(templateArgs.getText());
         }
-        convertedExpr.put(ctx, converted);
+
+        var args = ctx.arguments().argList();
+        if (args != null) {
+            if (converted.length() != 0) converted.append(", ");
+            if (args.ELLIPSIS() != null || args.nonNamedType() != null) {
+                converted.append(args.getText());
+            } else {
+                converted.append(convertedExpr.get(args.expressionList()));
+            }
+        }
+        convertedExpr.put(ctx, converted.toString());
         // we need to also rewrite, in case convertedExpr is not used at upper nodes.
         rewriter.replace(ctx.start, ctx.stop, String.format("(%s)", converted));
     }
@@ -244,9 +273,15 @@ class MainTranspilerListener extends CsGoParserBaseListener {
     }
 
     @Override
+    public void exitHintDecl(CsGoParser.HintDeclContext ctx) {
+        hints.add(ctx.IDENTIFIER().getText());
+        rewriter.replace(ctx.HINT().getSymbol(), "func");
+    }
+
+    @Override
     public void exitHintCall(CsGoParser.HintCallContext ctx) {
         rewriter.replace(ctx.start, ctx.stop,
-                String.format(HINT_CALL_FMT,
+                String.format(HINT_CALL_FORMAT,
                         ctx.identifierList().getText(),
                         ctx.IDENTIFIER().getText(),
                         convertedExpr.get(ctx.templateAndArgs())

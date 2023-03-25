@@ -2,9 +2,8 @@
 
 package selector
 
-
 import (
-	"apm/csgo/runtime"
+	"apm/csgo/api"
 	"github.com/consensys/gnark/frontend"
 )
 
@@ -19,7 +18,7 @@ func Partition(rightSide bool, pivotPosition frontend.Variable, input []frontend
 		mask = stepMask(len(input), pivotPosition, 1, 0)
 	}
 	for i := 0; i < len(out); i++ {
-		out[i] = runtime.Api.Mul(mask[i], input[i])
+		out[i] = api.Mul(mask[i], input[i])
 	}
 	return
 }
@@ -37,16 +36,16 @@ func stepMask(outputLen int, stepPosition, startValue, endValue frontend.Variabl
 	}
 	// get the output as a hint
 	var out []frontend.Variable
-	out, _ = runtime.Api.Compiler().NewHint(stepOutput, outputLen, stepPosition, startValue, endValue)
+	out, _ = api.Compiler().NewHint(stepOutput, outputLen, stepPosition, startValue, endValue)
 
 
 	// add the boundary constraints:
-	runtime.Api.AssertIsEqual(runtime.Api.Mul(runtime.Api.Sub(out[0], startValue), stepPosition), 0)
-	runtime.Api.AssertIsEqual(runtime.Api.Mul(runtime.Api.Sub(out[len(out)-1], endValue), runtime.Api.Sub(len((out)), stepPosition)), 0)
+	api.AssertIsEqual(api.Mul(api.Sub(out[0], startValue), stepPosition), 0)
+	api.AssertIsEqual(api.Mul(api.Sub(out[len(out)-1], endValue), api.Sub(len((out)), stepPosition)), 0)
 
 	// add constraints for the correct form of a step function that steps at the stepPosition
 	for i := 1; i < len(out); i++ {
-		runtime.Api.AssertIsEqual(runtime.Api.Mul(runtime.Api.Sub(out[i], out[i-1]), runtime.Api.Sub(i, stepPosition)), 0)
+		api.AssertIsEqual(api.Mul(api.Sub(out[i], out[i-1]), api.Sub(i, stepPosition)), 0)
 	}
 	return out
 }
