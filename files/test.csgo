@@ -5,9 +5,9 @@ func main() {
     x === y * (a + b)
     x <== y * z
     var x, y csv <== 2*a + b, z + 1
-    r<3, n>(x)
-    r(x, y)
-    r<>(x, y)
+    r<3, n+2>(x + y)
+    r(x, y+1)
+    r<>(x, y+1)
     x <== stepMask<len(input)>(pivotPosition, 0, 1)
     x = stepMask<len(input)>(pivotPosition, 0, 1)
     h<3, n + 2>(x,y,z) -> n, m

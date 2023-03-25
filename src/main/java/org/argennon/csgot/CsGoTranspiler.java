@@ -136,7 +136,7 @@ class MainTranspilerListener extends CsGoParserBaseListener {
     @Override
     public void exitCsvDeclAssign(CsGoParser.CsvDeclAssignContext ctx) {
         rewriter.replace(ctx.ALIAS_ASSIGN().getSymbol(), "=");
-        for (CsGoParser.ExpressionContext expression : ctx.expressionList().expression()) {
+        for (var expression : ctx.expressionList().expression()) {
             rewriter.replace(expression.start, expression.stop, convertedExpr.get(expression));
         }
     }
@@ -172,6 +172,16 @@ class MainTranspilerListener extends CsGoParserBaseListener {
     }
 
     @Override
+    public void exitExpressionList(CsGoParser.ExpressionListContext ctx) {
+        var str = new StringBuilder();
+        for (var expr : ctx.expression()) {
+            if (str.length() != 0) str.append(", ");
+            str.append(convertedExpr.get(expr));
+        }
+        convertedExpr.put(ctx, str.toString());
+    }
+
+    @Override
     public void exitPrimary(CsGoParser.PrimaryContext ctx) {
         var operand = ctx.primaryExpr().operand();
         var args = ctx.primaryExpr().templateAndArgs();
@@ -196,11 +206,14 @@ class MainTranspilerListener extends CsGoParserBaseListener {
         var args = ctx.arguments().argList();
         String converted;
         if (templateArgs != null && args != null) {
-            converted = String.format("%s, %s", templateArgs.getText(), args.getText());
+            converted = String.format("%s, %s",
+                    templateArgs.getText(),
+                    convertedExpr.get(args.expressionList())
+            );
         } else if (templateArgs != null) {
             converted = templateArgs.getText();
         } else if (args != null) {
-            converted = args.getText();
+            converted = convertedExpr.get(args.expressionList());
         } else {
             converted = "";
         }

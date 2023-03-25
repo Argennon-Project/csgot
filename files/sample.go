@@ -10,9 +10,9 @@ func Partition(rightSide bool, pivotPosition frontend.Variable, input []frontend
 	var mask []frontend.Variable
 	// we create a bit mask to multiply with the input.
 	if rightSide {
-		mask = stepMask(len(input), pivotPosition,0,1)
+		mask = stepMask(len(input), pivotPosition, 0, 1)
 	} else {
-		mask = stepMask(len(input), pivotPosition,1,0)
+		mask = stepMask(len(input), pivotPosition, 1, 0)
 	}
 	for i := 0; i < len(out); i++ {
 		out[i] = api.Mul(mask[i], input[i])
@@ -33,7 +33,7 @@ func stepMask(outputLen int, stepPosition, startValue, endValue frontend.Variabl
 	}
 	// get the output as a hint
 	var out []frontend.Variable
-	out, _ = api.Compiler().NewHint(stepOutput, outputLen, stepPosition,startValue,endValue)
+	out, _ = api.Compiler().NewHint(stepOutput, outputLen, stepPosition, startValue, endValue)
 
 
 	// add the boundary constraints:
