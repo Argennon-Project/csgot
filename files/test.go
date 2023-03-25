@@ -20,3 +20,11 @@ func main() {
 func r(x frontend.Variable) {
 
 }
+
+func (c *Type) method() frontend.Variable {
+
+}
+
+func (a Type) method(a bool, x frontend.Variable) {
+
+}

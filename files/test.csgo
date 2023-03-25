@@ -16,3 +16,11 @@ func main() {
 rel r(x csv) {
 
 }
+
+rel (c *Type) method() csv {
+
+}
+
+rel (a Type) method<a bool>(x csv) {
+
+}

@@ -67,7 +67,7 @@ functionDecl: FUNC IDENTIFIER (signature block?);
 
 methodDecl: FUNC receiver IDENTIFIER ( signature block?);
 
-relationDecl: REL IDENTIFIER templateParams? parameters result? block?;
+relationDecl: REL receiver? IDENTIFIER templateParams? parameters result? block;
 
 receiver: parameters;
 
