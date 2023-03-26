@@ -151,7 +151,7 @@ public class CsGoParserBaseVisitor<T> extends AbstractParseTreeVisitor<T> implem
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitCsvDeclAssign(CsGoParser.CsvDeclAssignContext ctx) { return visitChildren(ctx); }
+	@Override public T visitCsvInit(CsGoParser.CsvInitContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *

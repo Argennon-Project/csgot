@@ -198,15 +198,15 @@ public interface CsGoParserListener extends ParseTreeListener {
 	 */
 	void exitVarSpec(CsGoParser.VarSpecContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link CsGoParser#csvDeclAssign}.
+	 * Enter a parse tree produced by {@link CsGoParser#csvInit}.
 	 * @param ctx the parse tree
 	 */
-	void enterCsvDeclAssign(CsGoParser.CsvDeclAssignContext ctx);
+	void enterCsvInit(CsGoParser.CsvInitContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link CsGoParser#csvDeclAssign}.
+	 * Exit a parse tree produced by {@link CsGoParser#csvInit}.
 	 * @param ctx the parse tree
 	 */
-	void exitCsvDeclAssign(CsGoParser.CsvDeclAssignContext ctx);
+	void exitCsvInit(CsGoParser.CsvInitContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link CsGoParser#block}.
 	 * @param ctx the parse tree

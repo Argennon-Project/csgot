@@ -76,13 +76,13 @@ receiver: parameters;
 varDecl: VAR (varSpec | L_PAREN (varSpec eos)* R_PAREN);
 
 varSpec:
-    csvDeclAssign
+    csvInit
 	| identifierList (
 		type_ (ASSIGN expressionList)?
 		| ASSIGN expressionList
 	);
 
-csvDeclAssign: identifierList type_ ALIAS_ASSIGN expressionList;
+csvInit: identifierList type_ ALIAS_ASSIGN expressionList;
 
 block: L_CURLY statementList? R_CURLY;
 

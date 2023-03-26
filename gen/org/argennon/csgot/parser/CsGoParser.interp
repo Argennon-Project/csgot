@@ -212,7 +212,7 @@ hintDecl
 receiver
 varDecl
 varSpec
-csvDeclAssign
+csvInit
 block
 statementList
 statement

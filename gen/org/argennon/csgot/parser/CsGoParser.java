@@ -39,7 +39,7 @@ public class CsGoParser extends CsGoParserBase {
 		RULE_identifierList = 8, RULE_expressionList = 9, RULE_typeDecl = 10, 
 		RULE_typeSpec = 11, RULE_functionDecl = 12, RULE_methodDecl = 13, RULE_relationDecl = 14, 
 		RULE_hintDecl = 15, RULE_receiver = 16, RULE_varDecl = 17, RULE_varSpec = 18, 
-		RULE_csvDeclAssign = 19, RULE_block = 20, RULE_statementList = 21, RULE_statement = 22, 
+		RULE_csvInit = 19, RULE_block = 20, RULE_statementList = 21, RULE_statement = 22, 
 		RULE_simpleStmt = 23, RULE_hintCall = 24, RULE_constraintDecl = 25, RULE_expressionStmt = 26, 
 		RULE_sendStmt = 27, RULE_incDecStmt = 28, RULE_aliasing = 29, RULE_assignment = 30, 
 		RULE_assign_op = 31, RULE_shortVarDecl = 32, RULE_emptyStmt = 33, RULE_labeledStmt = 34, 
@@ -68,24 +68,24 @@ public class CsGoParser extends CsGoParserBase {
 			"sourceFile", "packageClause", "importDecl", "importSpec", "importPath", 
 			"declaration", "constDecl", "constSpec", "identifierList", "expressionList", 
 			"typeDecl", "typeSpec", "functionDecl", "methodDecl", "relationDecl", 
-			"hintDecl", "receiver", "varDecl", "varSpec", "csvDeclAssign", "block", 
-			"statementList", "statement", "simpleStmt", "hintCall", "constraintDecl", 
-			"expressionStmt", "sendStmt", "incDecStmt", "aliasing", "assignment", 
-			"assign_op", "shortVarDecl", "emptyStmt", "labeledStmt", "returnStmt", 
-			"breakStmt", "continueStmt", "gotoStmt", "fallthroughStmt", "deferStmt", 
-			"ifStmt", "switchStmt", "exprSwitchStmt", "exprCaseClause", "exprSwitchCase", 
-			"typeSwitchStmt", "typeSwitchGuard", "typeCaseClause", "typeSwitchCase", 
-			"typeList", "selectStmt", "commClause", "commCase", "recvStmt", "forStmt", 
-			"forClause", "rangeClause", "goStmt", "type_", "typeName", "typeLit", 
-			"arrayType", "arrayLength", "elementType", "pointerType", "aliasType", 
-			"interfaceType", "sliceType", "mapType", "channelType", "methodSpec", 
-			"functionType", "signature", "result", "templateParams", "parameters", 
-			"paramList", "parameterDecl", "expression", "primaryExpr", "conversion", 
-			"nonNamedType", "operand", "literal", "basicLit", "integer", "operandName", 
-			"qualifiedIdent", "compositeLit", "literalType", "literalValue", "elementList", 
-			"keyedElement", "key", "element", "structType", "fieldDecl", "string_", 
-			"embeddedField", "functionLit", "index", "slice_", "typeAssertion", "templateAndArgs", 
-			"templates", "arguments", "argList", "methodExpr", "receiverType", "eos"
+			"hintDecl", "receiver", "varDecl", "varSpec", "csvInit", "block", "statementList", 
+			"statement", "simpleStmt", "hintCall", "constraintDecl", "expressionStmt", 
+			"sendStmt", "incDecStmt", "aliasing", "assignment", "assign_op", "shortVarDecl", 
+			"emptyStmt", "labeledStmt", "returnStmt", "breakStmt", "continueStmt", 
+			"gotoStmt", "fallthroughStmt", "deferStmt", "ifStmt", "switchStmt", "exprSwitchStmt", 
+			"exprCaseClause", "exprSwitchCase", "typeSwitchStmt", "typeSwitchGuard", 
+			"typeCaseClause", "typeSwitchCase", "typeList", "selectStmt", "commClause", 
+			"commCase", "recvStmt", "forStmt", "forClause", "rangeClause", "goStmt", 
+			"type_", "typeName", "typeLit", "arrayType", "arrayLength", "elementType", 
+			"pointerType", "aliasType", "interfaceType", "sliceType", "mapType", 
+			"channelType", "methodSpec", "functionType", "signature", "result", "templateParams", 
+			"parameters", "paramList", "parameterDecl", "expression", "primaryExpr", 
+			"conversion", "nonNamedType", "operand", "literal", "basicLit", "integer", 
+			"operandName", "qualifiedIdent", "compositeLit", "literalType", "literalValue", 
+			"elementList", "keyedElement", "key", "element", "structType", "fieldDecl", 
+			"string_", "embeddedField", "functionLit", "index", "slice_", "typeAssertion", 
+			"templateAndArgs", "templates", "arguments", "argList", "methodExpr", 
+			"receiverType", "eos"
 		};
 	}
 	public static final String[] ruleNames = makeRuleNames();
@@ -1563,8 +1563,8 @@ public class CsGoParser extends CsGoParserBase {
 
 	@SuppressWarnings("CheckReturnValue")
 	public static class VarSpecContext extends ParserRuleContext {
-		public CsvDeclAssignContext csvDeclAssign() {
-			return getRuleContext(CsvDeclAssignContext.class,0);
+		public CsvInitContext csvInit() {
+			return getRuleContext(CsvInitContext.class,0);
 		}
 		public IdentifierListContext identifierList() {
 			return getRuleContext(IdentifierListContext.class,0);
@@ -1606,7 +1606,7 @@ public class CsGoParser extends CsGoParserBase {
 				enterOuterAlt(_localctx, 1);
 				{
 				setState(384);
-				csvDeclAssign();
+				csvInit();
 				}
 				break;
 			case 2:
@@ -1672,7 +1672,7 @@ public class CsGoParser extends CsGoParserBase {
 	}
 
 	@SuppressWarnings("CheckReturnValue")
-	public static class CsvDeclAssignContext extends ParserRuleContext {
+	public static class CsvInitContext extends ParserRuleContext {
 		public IdentifierListContext identifierList() {
 			return getRuleContext(IdentifierListContext.class,0);
 		}
@@ -1683,28 +1683,28 @@ public class CsGoParser extends CsGoParserBase {
 		public ExpressionListContext expressionList() {
 			return getRuleContext(ExpressionListContext.class,0);
 		}
-		public CsvDeclAssignContext(ParserRuleContext parent, int invokingState) {
+		public CsvInitContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
-		@Override public int getRuleIndex() { return RULE_csvDeclAssign; }
+		@Override public int getRuleIndex() { return RULE_csvInit; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof CsGoParserListener ) ((CsGoParserListener)listener).enterCsvDeclAssign(this);
+			if ( listener instanceof CsGoParserListener ) ((CsGoParserListener)listener).enterCsvInit(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof CsGoParserListener ) ((CsGoParserListener)listener).exitCsvDeclAssign(this);
+			if ( listener instanceof CsGoParserListener ) ((CsGoParserListener)listener).exitCsvInit(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof CsGoParserVisitor ) return ((CsGoParserVisitor<? extends T>)visitor).visitCsvDeclAssign(this);
+			if ( visitor instanceof CsGoParserVisitor ) return ((CsGoParserVisitor<? extends T>)visitor).visitCsvInit(this);
 			else return visitor.visitChildren(this);
 		}
 	}
 
-	public final CsvDeclAssignContext csvDeclAssign() throws RecognitionException {
-		CsvDeclAssignContext _localctx = new CsvDeclAssignContext(_ctx, getState());
-		enterRule(_localctx, 38, RULE_csvDeclAssign);
+	public final CsvInitContext csvInit() throws RecognitionException {
+		CsvInitContext _localctx = new CsvInitContext(_ctx, getState());
+		enterRule(_localctx, 38, RULE_csvInit);
 		try {
 			enterOuterAlt(_localctx, 1);
 			{

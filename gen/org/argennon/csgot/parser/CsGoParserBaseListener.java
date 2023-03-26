@@ -245,13 +245,13 @@ public class CsGoParserBaseListener implements CsGoParserListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterCsvDeclAssign(CsGoParser.CsvDeclAssignContext ctx) { }
+	@Override public void enterCsvInit(CsGoParser.CsvInitContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitCsvDeclAssign(CsGoParser.CsvDeclAssignContext ctx) { }
+	@Override public void exitCsvInit(CsGoParser.CsvInitContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *

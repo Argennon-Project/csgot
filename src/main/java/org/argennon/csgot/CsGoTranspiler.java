@@ -24,30 +24,35 @@ public class CsGoTranspiler {
     public static final String PKG_CONFIG_FILE_NAME = "globals.go";
 
     private final MessageReporter reporter;
-    final String srcImport, dstImport;
+    private String srcRoot, dstRoot;
 
 
-    public CsGoTranspiler(MessageReporter reporter, String srcImport, String dstImport) {
+    public CsGoTranspiler(MessageReporter reporter) {
         this.reporter = reporter;
-        this.srcImport = srcImport;
-        this.dstImport = dstImport;
     }
 
 
-    public void transpileDir(File srcDir, File dstDir) throws IOException {
+    public boolean transpileAll(String srcRoot, String dstRoot) throws IOException {
+        this.srcRoot = srcRoot;
+        this.dstRoot = dstRoot;
+        return transpileDir(new File(srcRoot), new File(dstRoot));
+    }
+    private boolean transpileDir(File srcDir, File dstDir) throws IOException {
         var files = srcDir.listFiles();
         if (files == null) throw new IOException(srcDir + " is not a valid directory");
 
+        boolean error = false;
         for (File f : files) {
             if (f.isDirectory()) {
-                transpileDir(f, new File(dstDir, f.getName()));
+                error |= transpileDir(f, new File(dstDir, f.getName()));
             } else if (f.isFile() && f.getName().endsWith(".csgo")) {
-                transpileFile(
+                error |= transpileFile(
                         f,
                         new File(dstDir, f.getName().replace(".csgo", ".go"))
                 );
             }
         }
+        return error;
     }
 
     public boolean transpileFile(File input, File output) throws IOException {
@@ -71,7 +76,7 @@ public class CsGoTranspiler {
 
             // create standard walker
             ParseTreeWalker walker = new ParseTreeWalker();
-            var listener = new MainTranspilerListener(tokens, srcImport, dstImport);
+            var listener = new MainTranspilerListener(tokens, srcRoot, dstRoot);
             // initiate walk of tree with listener
             walker.walk(listener, tree);
 
@@ -124,13 +129,13 @@ class MainTranspilerListener extends CsGoParserBaseListener {
     String packageName;
     List<String> hints = new ArrayList<>();
     TokenStreamRewriter rewriter;
-    String srcImport, dstImport;
+    private final String srcImportPattern, dstImportPattern;
     ParseTreeProperty<String> convertedExpr = new ParseTreeProperty<>();
 
-    public MainTranspilerListener(TokenStream tokens, String srcImport, String dstImport) {
+    public MainTranspilerListener(TokenStream tokens, String srcImportPattern, String dstImportPattern) {
         rewriter = new TokenStreamRewriter(tokens);
-        this.srcImport = srcImport;
-        this.dstImport = dstImport;
+        this.srcImportPattern = srcImportPattern;
+        this.dstImportPattern = dstImportPattern;
     }
 
     @Override
@@ -141,7 +146,7 @@ class MainTranspilerListener extends CsGoParserBaseListener {
 
     @Override
     public void exitImportPath(CsGoParser.ImportPathContext ctx) {
-        rewriter.replace(ctx.start, ctx.stop, ctx.string_().getText().replace(srcImport, dstImport));
+        rewriter.replace(ctx.start, ctx.stop, ctx.string_().getText().replace(srcImportPattern, dstImportPattern));
     }
 
     @Override
@@ -172,7 +177,7 @@ class MainTranspilerListener extends CsGoParserBaseListener {
     }
 
     @Override
-    public void exitCsvDeclAssign(CsGoParser.CsvDeclAssignContext ctx) {
+    public void exitCsvInit(CsGoParser.CsvInitContext ctx) {
         rewriter.replace(ctx.ALIAS_ASSIGN().getSymbol(), "=");
         for (var expression : ctx.expressionList().expression()) {
             rewriter.replace(expression.start, expression.stop, convertedExpr.get(expression));
