@@ -3,7 +3,7 @@
 package selector
 
 import (
-	"apm/csgo/api"
+	"github.com/argennon-project/csgo/api"
 	"github.com/consensys/gnark/frontend"
 )
 

@@ -3,7 +3,7 @@
 package main
 
 import (
-	"apm/csgo/api"
+	"github.com/argennon-project/csgo/api"
 	"github.com/consensys/gnark/frontend"
 	"github.com/consensys/gnark/backend/hint"
 )

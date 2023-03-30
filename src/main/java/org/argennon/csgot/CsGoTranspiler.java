@@ -17,7 +17,7 @@ import java.util.List;
 
 public class CsGoTranspiler {
     private static final String COMMON_IMPORTS = "" +
-            "\t\"apm/csgo/api\"\n" +     //TODO: this is fragile
+            "\t\"apm/csgo/api\"\n" +     //TODO: this needs to be changed
             "\t\"github.com/consensys/gnark/frontend\"\n";
     private static final String HINT_IMPORT = "\t\"github.com/consensys/gnark/backend/hint\"\n";
     private static final String HINT_REGISTER_FORMAT = "hint.Register(%s)\n";
@@ -37,6 +37,7 @@ public class CsGoTranspiler {
         this.dstRoot = dstRoot;
         return transpileDir(new File(srcRoot), new File(dstRoot));
     }
+
     private boolean transpileDir(File srcDir, File dstDir) throws IOException {
         var files = srcDir.listFiles();
         if (files == null) throw new IOException(srcDir + " is not a valid directory");
@@ -146,7 +147,8 @@ class MainTranspilerListener extends CsGoParserBaseListener {
 
     @Override
     public void exitImportPath(CsGoParser.ImportPathContext ctx) {
-        rewriter.replace(ctx.start, ctx.stop, ctx.string_().getText().replace(srcImportPattern, dstImportPattern));
+        rewriter.replace(ctx.start, ctx.stop,
+                ctx.string_().getText().replaceFirst(srcImportPattern, dstImportPattern));
     }
 
     @Override
